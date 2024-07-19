@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../Styles/menu.css" />
+    <title>The Gallery Café - Menu</title>
+  </head>
+  <body>
+    <div class="header">
+      <nav>
+        <img src="/logo.png" alt="The Gallery Café" class="logo" />
+        <ul class="nav-links">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="/">Menu</a></li>
+          <li><a href="./reservation.html">Reservations</a></li>
+          <li><a href="./aboutUs.html">About Us</a></li>
+          <li><a href="./contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <div class="menu-container">
+      <h1>Our Menu</h1>
+
+      <div id="menu-items" class="menu-items">
+        <a href="./beverages.html" style="text-decoration: none;">
+          <div id="beverages" class="menu-section">
+            <h2>Beverages</h2>
+          </div>
+        </a>
+      </div>
+
+      <div class="cuisine-grid">
+        <div class="cuisine-item" onclick="showCuisine('italian')">
+          <img src="/images/cuisine1.jpg" alt="Italian" />
+          <h2>Italian</h2>
+        </div>
+        <div class="cuisine-item" onclick="showCuisine('sushi')">
+          <img src="/images/cuisine2.jpg" alt="Sushi" />
+          <h2>Sushi</h2>
+        </div>
+        <div class="cuisine-item" onclick="showCuisine('mexican')">
+          <img src="/images/cuisine3.jpg" alt="Mexican" />
+          <h2>Mexican</h2>
+        </div>
+        <div class="cuisine-item" onclick="showCuisine('french')">
+          <img src="/images/cuisine4.jpg" alt="French" />
+          <h2>French</h2>
+        </div>
+        <div class="cuisine-item" onclick="showCuisine('srilankan')">
+          <img src="/images/cuisine5.jpg" alt="Sri Lankan" />
+          <h2>Sri Lankan</h2>
+        </div>
+        <div class="cuisine-item" onclick="showCuisine('indian')">
+          <img src="/images/cuisine6.jpg" alt="Indian" />
+          <h2>Indian</h2>
+        </div>
+        <div class="cuisine-item" onclick="showCuisine('chinese')">
+          <img src="/images/cuisine7.jpg" alt="Chinese" />
+          <h2>Chinese</h2>
+        </div>
+        <div class="cuisine-item" onclick="showCuisine('thai')">
+          <img src="/images/cuisine8.jpg" alt="Thai" />
+          <h2>Thai</h2>
+        </div>
+      </div>
+      <div id="menu-items" class="menu-items"></div>
+    </div>
+
+    <script src="../Scripts/menu.js"></script>
+  </body>
+</html>

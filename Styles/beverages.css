@@ -1,0 +1,89 @@
+/* Basic reset and body styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+.header {
+    background-color: #a0522d;
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+}
+
+.logo {
+    width: 150px;
+}
+
+.nav-links {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.nav-links li {
+    margin: 0 15px;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+}
+/* Beverages menu container */
+.beverages-menu {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Heading styling */
+.beverages-menu h1 {
+    text-align: center;
+    color: #333;
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+/* Beverages list styling */
+.beverage-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Beverage item styling */
+.beverage-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+.beverage-list li:last-child {
+    border-bottom: none;
+}
+
+/* Beverage name and price styling */
+.beverage-name {
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.price {
+    font-size: 1rem;
+    color: #666;
+}
+
+.addons {
+    font-size: 0.9rem;
+    color: #ff6f61;
+    display: block;
+    margin-top: 5px;
+}
