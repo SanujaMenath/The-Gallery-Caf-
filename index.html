@@ -3,21 +3,135 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="./Styles/index.css">
     <title>The Gallery Café</title>
 </head>
 <body>
+    <!-- header section -->
     <div class="header">
         <nav>
-          <img src="/logo.png" alt="The Gallery Café" class="logo" />
-          <ul class="nav-links">
-            <li><a href="./index.html">Home</a></li>
-            <li><a href="./Pages/menu.html">Menu</a></li>
-            <li><a href="./Pages/reservation.html">Reservations</a></li>
-            <li><a href="./Pages/aboutUs.html">About Us</a></li>
-            <li><a href="./Pages/contact.html">Contact</a></li>
-          </ul>
+            <img src="/logo.png" alt="The Gallery Café" class="logo" />
+            <ul class="nav-links">
+                <li><a href="./index.html">Home</a></li>
+                <li><a href="./Pages/menu.html">Menu</a></li>
+                <li><a href="./Pages/reservation.html">Reservations</a></li>
+                <li><a href="./Pages/aboutUs.html">About Us</a></li>
+                <li><a href="./Pages/contact.html">Contact</a></li>
+            </ul>
         </nav>
     </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Welcome to The Gallery Café</h1>
+        <p>Where art meets food. Enjoy a delightful experience.</p>
+        <a href="./Pages/reservation.html" class="btn">Make a Reservation</a>
+    </section>
+
+    <!-- Introduction/About Section -->
+    <section class="about">
+        <h2>About Us</h2>
+        <p>At The Gallery Café, we blend the love for art and food. Enjoy our carefully curated menu and the artistic ambiance. Our café is a perfect place for art enthusiasts and food lovers to relax and enjoy.</p>
+    </section>
+
+    <!-- Featured Menu Items Section -->
+    <section class="featured-menu">
+        <h2>Featured Menu Items</h2>
+        <div class="menu-grid">
+            <div class="menu-item">
+                <img src="/images/cuisine1.jpg" alt="Italian Pasta">
+                <h3>Italian Pasta</h3>
+                <p>Delicious homemade pasta with a rich tomato sauce and fresh basil.</p>
+            </div>
+            <div class="menu-item">
+                <img src="/images/cuisine2.jpg" alt="Sushi Platter">
+                <h3>Sushi Platter</h3>
+                <p>Assorted sushi with fresh fish, served with soy sauce and wasabi.</p>
+            </div>
+            <div class="menu-item">
+                <img src="/images/cuisine3.jpg" alt="Mexican Tacos">
+                <h3>Mexican Tacos</h3>
+                <p>Spicy chicken tacos with avocado, cilantro, and lime.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="gallery">
+        <h2>Our Gallery</h2>
+        <div class="gallery-grid">
+            <img src="/images/gallery1.jpg" alt="Gallery Image 1">
+            <img src="/images/gallery2.jpg" alt="Gallery Image 2">
+            <img src="/images/gallery3.jpg" alt="Gallery Image 3">
+            <img src="/images/gallery4.jpg" alt="Gallery Image 4">
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+        <h2>What Our Customers Say</h2>
+        <div class="testimonial-grid">
+            <div class="testimonial-item">
+                <p>"Amazing atmosphere and delicious food. A perfect place to unwind and enjoy art!"</p>
+                <h3>- John Doe</h3>
+            </div>
+            <div class="testimonial-item">
+                <p>"The Gallery Café offers a unique dining experience with its artistic décor and exquisite dishes."</p>
+                <h3>- Jane Smith</h3>
+            </div>
+            <div class="testimonial-item">
+                <p>"I love the blend of art and food here. The sushi platter is my favorite."</p>
+                <h3>- Sarah Lee</h3>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Signup Section -->
+    <section class="newsletter">
+        <h2>Stay Updated</h2>
+        <p>Subscribe to our newsletter to receive the latest news and special offers.</p>
+        <form action="#">
+            <input type="email" placeholder="Enter your email" required>
+            <button type="submit">Subscribe</button>
+        </form>
+    </section>
+
+    <!-- footer-section -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section about">
+                <h2>The Gallery Café</h2>
+                <p>Welcome to The Gallery Café, where we blend the love for art and food. Enjoy our carefully curated menu and the artistic ambiance.</p>
+            </div>
+            <div class="footer-section links">
+                <h2>Quick Links</h2>
+                <ul>
+                    <li><a href="./index.html">Home</a></li>
+                    <li><a href="./Pages/menu.html">Menu</a></li>
+                    <li><a href="./Pages/reservation.html">Reservations</a></li>
+                    <li><a href="./Pages/aboutUs.html">About Us</a></li>
+                    <li><a href="./Pages/contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section contact">
+                <h2>Contact Us</h2>
+                <ul>
+                    <li>Email: info@gallerycafe.com</li>
+                    <li>Phone: +1 234 567 890</li>
+                    <li>Address: 123 Art St, Creativity City</li>
+                </ul>
+                <div class="social-media" style="margin-top: 10px;">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 The Gallery Café. All rights reserved.</p>
+        </div>
+    </footer>
 </body>
 </html>
