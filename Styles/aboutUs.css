@@ -5,42 +5,20 @@ body {
     padding: 0;
 }
 
-.header {
-    background-color: #a0522d;
-    color: white;
-    padding: 20px 0;
-    text-align: center;
-}
 
-.logo {
-    width: 150px;
-}
-
-.nav-links {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-}
-
-.nav-links li {
-    margin: 0 15px;
-}
-
-.nav-links a {
-    color: white;
-    text-decoration: none;
-}
-
+/* About Section */
 .about-container {
     padding: 50px;
     text-align: center;
+    max-width: 1280px;
+    margin: 0 auto;
+    border-radius: 10px;
 }
 
 .about-container h1 {
     font-size: 2.5em;
     margin-bottom: 40px;
-    color: #333;
+    color: black;
 }
 
 section {
@@ -94,4 +72,28 @@ section p {
     font-size: 1em;
     color: #555;
     line-height: 1.4;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .about-container {
+        padding: 30px;
+    }
+
+    .team-member {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .about-container h1 {
+        font-size: 2em;
+    }
+
+    section h2 {
+        font-size: 1.8em;
+    }
+
+    section p {
+        font-size: 1em;
+    }
 }

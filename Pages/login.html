@@ -7,18 +7,10 @@
     <title>Login - The Gallery Café</title>
 </head>
 <body>
+    <div class="main-container">
     <div class="login-container">
         <h1>Login to The Gallery Café</h1>
-        <form action="#" method="post">
-            <div class="role-selection">
-                <label for="role">Select Your Role:</label>
-                <select id="role" name="role" required>
-                    <option value="" disabled selected>Select your role</option>
-                    <option value="admin">Admin</option>
-                    <option value="staff">Staff</option>
-                    <option value="customer">Customer</option>
-                </select>
-            </div>
+        <form action="login.php" method="post">
             <div class="input-group">
                 <label for="username">Username:</label>
                 <input type="text" id="username" name="username" required>
@@ -27,8 +19,13 @@
                 <label for="password">Password:</label>
                 <input type="password" id="password" name="password" required>
             </div>
-            <button type="submit">Login</button>
+            <button type="submit">Login</button>   
         </form>
+        <div class="reg">  
+            <label>If you don't have an account:</label>
+            <a href="register.php"><button type="button">Register</button></a>
+        </div>
     </div>
+</div>
 </body>
 </html>
