@@ -1,9 +1,15 @@
 <?php
 session_start();
-// Database configuration
+// Check if the user is not an admin
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== "admin") {
+    header("Location: unauthorized.php"); // Redirect to unauthorized access page if user is not an admin
+    exit();
+}
+
+// Database config
 $servername = "localhost";
-$username = "root"; 
-$password = "root"; 
+$username = "root";
+$password = "root";
 $dbname = "the_gallery_cafe";
 
 // Create connection
@@ -40,6 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -48,7 +55,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="../Styles/footer.css">
     <title>Add Beverage - Admin Dashboard</title>
 </head>
-<div class="header">
+
+<body>
+    <!-- Header Section -->
+    <div class="header">
         <nav>
             <div class="header-top">
                 <div class="contact-info">
@@ -102,33 +112,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </nav>
     </div>
 
-   <!-- admin-container -->
-<div class="admin-main-content ">
-    <div class="admin-container">
-        <h1>Add New Beverage</h1>
-        <?php if ($message): ?>
-            <p class="admin-message"><?php echo htmlspecialchars($message); ?></p>
-        <?php endif; ?>
-        <form action="" method="post">
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" required>
+    <!-- admin-container -->
+    <div class="admin-main-content ">
+        <div class="admin-container">
+            <h1>Add New Beverage</h1>
+            <?php if ($message): ?>
+                <p class="admin-message"><?php echo htmlspecialchars($message); ?></p>
+            <?php endif; ?>
+            <form action="" method="post">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
 
-            <label for="add_ons">Add-ons:</label>
-            <textarea id="add_ons" name="add_ons"></textarea>
+                <label for="add_ons">Add-ons:</label>
+                <textarea id="add_ons" name="add_ons"></textarea>
 
-            <label for="price_regular">Price (Regular):</label>
-            <input type="number" id="price_regular" name="price_regular" step="0.01" required>
+                <label for="price_regular">Price (Regular):</label>
+                <input type="number" id="price_regular" name="price_regular" step="0.01" required>
 
-            <label for="price_large">Price (Large):</label>
-            <input type="number" id="price_large" name="price_large" step="0.01" required>
+                <label for="price_large">Price (Large):</label>
+                <input type="number" id="price_large" name="price_large" step="0.01" required>
 
-            <label for="price_add_ons">Price (Add-ons):</label>
-            <input type="number" id="price_add_ons" name="price_add_ons" step="0.01" required>
+                <label for="price_add_ons">Price (Add-ons):</label>
+                <input type="number" id="price_add_ons" name="price_add_ons" step="0.01" required>
 
-            <button type="submit" class="admin-button">Add Beverage</button>
-        </form>
+                <button type="submit" class="admin-button">Add Beverage</button>
+            </form>
+        </div>
     </div>
-</div>
 
 
 
@@ -172,4 +182,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     </footer>
 </body>
+
 </html>

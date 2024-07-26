@@ -4,17 +4,14 @@ session_start();
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Menu</title>
   <link rel="stylesheet" href="../Styles/headerStyle.css">
-    <link rel="stylesheet" href="../Styles/footer.css">
+  <link rel="stylesheet" href="../Styles/footer.css">
   <link rel="stylesheet" href="../Styles/beverages.css" />
-  <!-- Link to your CSS file -->
 </head>
-
 <body>
   <!-- header section -->
   <div class="header">
@@ -75,97 +72,79 @@ session_start();
   <div class="beverages-menu">
     <h1>Beverages Menu</h1>
     <ul class="beverage-list">
-      <li>
-        <span class="beverage-name">Espresso</span>
-        <span class="price">Regular: LKR 300 | Large: LKR 450</span>
-      </li>
-      <li>
-        <span class="beverage-name">Double Espresso</span>
-        <span class="price">Regular: LKR 400 | Large: LKR 550</span>
-      </li>
-      <li>
-        <span class="beverage-name">Americano</span>
-        <span class="price">Regular: LKR 350 | Large: LKR 500</span>
-      </li>
-      <li>
-        <span class="beverage-name">Flat White</span>
-        <span class="price">Regular: LKR 400 | Large: LKR 550</span>
-      </li>
-      <li>
-        <span class="beverage-name">Latte</span>
-        <span class="price">Regular: LKR 350 | Large: LKR 500</span>
-      </li>
-      <li>
-        <span class="beverage-name">Capuccino</span>
-        <span class="price">Regular: LKR 400 | Large: LKR 550</span>
-      </li>
-      <li>
-        <span class="beverage-name">Caramel Macchiato</span>
-        <span class="price">Regular: LKR 450 | Large: LKR 600</span>
-      </li>
-      <li>
-        <span class="beverage-name">Hot Chocolate</span>
-        <span class="price">Regular: LKR 350 | Large: LKR 500
-          <span class="addons">Add-ons: Marshmallows (+LKR 50)</span></span>
-      </li>
-      <li>
-        <span class="beverage-name">Mocha</span>
-        <span class="price">Regular: LKR 400 | Large: LKR 550</span>
-      </li>
-      <li>
-        <span class="beverage-name">Vanilla Mocha</span>
-        <span class="price">Regular: LKR 450 | Large: LKR 600</span>
-      </li>
-      <li>
-        <span class="beverage-name">Strawberry Mocha</span>
-        <span class="price">Regular: LKR 450 | Large: LKR 600</span>
-      </li>
-      <li>
-        <span class="beverage-name">Dark Chocolate Mocha</span>
-        <span class="price">Regular: LKR 450 | Large: LKR 600</span>
-      </li>
+      <?php
+      // Database configuration
+      $servername = "localhost";
+      $username = "root";
+      $password = "root";
+      $dbname = "the_gallery_cafe";
+
+      // Create connection
+      $conn = new mysqli($servername, $username, $password, $dbname);
+
+      // Check connection
+      if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+      }
+
+      // Fetch beverages data
+      $sql = "SELECT name, add_ons, price_regular, price_large, price_add_ons FROM beverages";
+      $result = $conn->query($sql);
+
+      if ($result->num_rows > 0) {
+        // Output data of each row
+        while ($row = $result->fetch_assoc()) {
+          echo "<li>";
+          echo "<span class='beverage-name'>" . htmlspecialchars($row['name']) . "</span>";
+          echo "<span class='price'>Regular: LKR " . htmlspecialchars($row['price_regular']) . " | Large: LKR " . htmlspecialchars($row['price_large']) . "</span>";
+          if (!empty($row['add_ons'])) {
+              echo "<span class='addons'>Add-ons: " . htmlspecialchars($row['add_ons']) . " (+" . htmlspecialchars($row['price_add_ons']) . " LKR)</span>";
+          }
+          echo "</li>";
+      }      
+      } else {
+        echo "<li>No beverages available</li>";
+      }
+      $conn->close();
+      ?>
     </ul>
   </div>
 
-    <!-- footer-section -->
-    <footer>
-        <div class="footer-container">
-            <div class="footer-section about">
-                <h2>The Gallery Café</h2>
-                <p>
-                    Welcome to The Gallery Café, where we blend the love for art and
-                    food. Enjoy our carefully curated menu and the artistic ambiance.
-                </p>
-            </div>
-            <div class="footer-section links">
-                <h2>Quick Links</h2>
-                <ul>
-                    <li><a href="../index.php">Home</a></li>
-                    <li><a href="../Pages/menu.html">Menu</a></li>
-                    <li><a href="../Pages/reservation.html">Reservations</a></li>
-                    <li><a href="../Pages/aboutUs.html">About Us</a></li>
-                    <li><a href="../Pages/contact.html">Contact</a></li>
-                </ul>
-            </div>
-            <div class="footer-section contact">
-                <h2>Contact Us</h2>
-                <ul>
-                    <li>Email: info@gallerycafe.com</li>
-                    <li>Phone: +1 234 567 890</li>
-                    <li>Address: 123 Art St, Creativity City</li>
-                </ul>
-                <div class="social-media" style="margin-top: 10px">
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-whatsapp"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                </div>
-            </div>
+  <!-- footer-section -->
+  <footer>
+    <div class="footer-container">
+      <div class="footer-section about">
+        <h2>The Gallery Café</h2>
+        <p>Welcome to The Gallery Café, where we blend the love for art and food. Enjoy our carefully curated menu and the artistic ambiance.</p>
+      </div>
+      <div class="footer-section links">
+        <h2>Quick Links</h2>
+        <ul>
+          <li><a href="../index.php">Home</a></li>
+          <li><a href="../Pages/menu.html">Menu</a></li>
+          <li><a href="../Pages/reservation.html">Reservations</a></li>
+          <li><a href="../Pages/aboutUs.html">About Us</a></li>
+          <li><a href="../Pages/contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-section contact">
+        <h2>Contact Us</h2>
+        <ul>
+          <li>Email: info@gallerycafe.com</li>
+          <li>Phone: +1 234 567 890</li>
+          <li>Address: 123 Art St, Creativity City</li>
+        </ul>
+        <div class="social-media" style="margin-top: 10px">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-whatsapp"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
         </div>
-        <div class="footer-bottom">
-            <p>&copy; 2024 The Gallery Café. All rights reserved.</p>
-        </div>
-    </footer>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2024 The Gallery Café. All rights reserved.</p>
+    </div>
+  </footer>
 </body>
-
 </html>

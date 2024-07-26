@@ -72,11 +72,13 @@ body {
 
 /* Beverage name and price styling */
 .beverage-name {
+    display: block;
     font-size: 1.2rem;
     color: #333;
 }
 
 .price {
+    display: block;
     font-size: 1rem;
     color: #666;
 }

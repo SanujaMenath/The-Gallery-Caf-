@@ -1,5 +1,16 @@
 <?php
 session_start();
+// Initialize message variable
+$message = '';
+
+// Check if the form is submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  // Check if the user is logged in
+  if (!isset($_SESSION['role'])) {
+      header("Location: ./login.html");
+      exit();
+  }
+}
 // Database configuration
 $servername = "localhost";
 $username = "root"; 
@@ -91,7 +102,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <ul class="nav-links">
         <li><a href="../index.php">Home</a></li>
         <li><a href="./menu.php">Menu</a></li>
-        <li><a href="./reservation.html">Reservations</a></li>
+        <li><a href="./reservation.php">Reservations</a></li>
 
         <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
           <li><a href="./admin.php">Dashboard</a></li>
@@ -133,7 +144,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <label for="requests">Special Requests:</label>
             <textarea id="requests" name="requests"></textarea>
 
-            <button type="submit">Reserve Now</button>
+            <button type="submit">Reserve Now</button>     
         </form>
     </div>
 

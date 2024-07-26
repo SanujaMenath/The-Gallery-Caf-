@@ -1,8 +1,16 @@
 <?php
-// Database configuration
+session_start();
+
+// Check if the user is not an admin
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== "admin") {
+    header("Location: unauthorized.php"); // Redirect to unauthorized access page if user is not an admin
+    exit();
+}
+
+// Database connection
 $servername = "localhost";
-$username = "root"; // Default WAMP server username
-$password = "root"; // Default WAMP server password (empty)
+$username = "root";
+$password = "root";
 $dbname = "the_gallery_cafe";
 
 // Create connection
@@ -11,14 +19,6 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 // Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
-}
-
-session_start();
-
-// Check if the user is not an admin
-if (!isset($_SESSION['role']) || $_SESSION['role'] !== "admin") {
-    header("Location: unauthorized.php"); // Redirect to unauthorized access page
-    exit();
 }
 
 // Check if the form is submitted

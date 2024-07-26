@@ -1,5 +1,10 @@
 <?php
 session_start();
+// Check if the user is staff
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
+    header("Location: ./unauthorized.php");
+    exit();
+}
 // Database configuration
 $servername = "localhost";
 $username = "root";
@@ -107,102 +112,107 @@ if (!$reservations_result) {
         </nav>
     </div>
 
-  <!-- admin-dashboard -->
-<div class="admin-main-content">
-    <div class="admin-container">
-        <h1>Admin Dashboard - The Gallery Café</h1>
-        <nav class="admin-nav">
-            <ul>
-                <li><a href="#manage-users">Manage Users</a></li>
-                <li><a href="#manage-items">Manage Food & Beverages</a></li>
-                <li><a href="#view-reservations">View Reservations</a></li>
-                <li><a href="logout.php">Logout</a></li>
-            </ul>
-        </nav>
+    <!-- admin-dashboard -->
+    <div class="admin-main-content">
+        <div class="admin-container">
+            <h1>Admin Dashboard - The Gallery Café</h1>
+            <nav class="admin-nav">
+                <ul>
+                    <li><a href="#manage-users">Manage Users</a></li>
+                    <li><a href="#manage-items">Manage Food & Beverages</a></li>
+                    <li><a href="#view-reservations">View Reservations</a></li>
+                    <li><a href="logout.php">Logout</a></li>
+                </ul>
+            </nav>
 
-        <section id="manage-users">
-            <h2>Manage Users</h2>
-            <table class="admin-table">
-                <tr>
-                    <th>Username</th>
-                    <th>Email</th>
-                    <th>Role</th>
-                    <th>Actions</th>
-                </tr>
-                <?php while ($user = $users_result->fetch_assoc()) { ?>
+            <section id="manage-users">
+                <h2>Manage Users</h2>
+                <table class="admin-table">
                     <tr>
-                        <td><?php echo $user['username']; ?></td>
-                        <td><?php echo $user['email']; ?></td>
-                        <td><?php echo $user['role']; ?></td>
-                        <td>
-                            <a href="edit_user.php?id=<?php echo $user['id']; ?>">Edit</a> |
-                            <a href="delete_user.php?id=<?php echo $user['id']; ?>">Delete</a>
-                        </td>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Actions</th>
                     </tr>
-                <?php } ?>
-            </table>
-            <a href="add_user.php" class="admin-button">Add New User</a>
-        </section>
-
-        <!-- Manage Beverages Section -->
-        <div id="manage-items" class="dashboard-section">
-            <h2>Manage Beverages</h2>
-            <table class="admin-table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Add-ons</th>
-                        <th>Price (Regular)</th>
-                        <th>Price (Large)</th>
-                        <th>Price (Add-ons)</th>
-                        <th>Created At</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php while ($item = $items_result->fetch_assoc()): ?>
+                    <?php while ($user = $users_result->fetch_assoc()) { ?>
                         <tr>
-                            <td><?php echo $item['id']; ?></td>
-                            <td><?php echo $item['name']; ?></td>
-                            <td><?php echo $item['add_ons']; ?></td>
-                            <td><?php echo $item['price_regular']; ?></td>
-                            <td><?php echo $item['price_large']; ?></td>
-                            <td><?php echo $item['price_add_ons']; ?></td>
-                            <td><?php echo $item['created_at']; ?></td>
+                            <td><?php echo $user['username']; ?></td>
+                            <td><?php echo $user['email']; ?></td>
+                            <td><?php echo $user['role']; ?></td>
+                            <td>
+                                <a href="edit_user.php?id=<?php echo $user['id']; ?>">Edit</a> |
+                                <a href="delete_user.php?id=<?php echo $user['id']; ?>">Delete</a>
+                            </td>
                         </tr>
-                    <?php endwhile; ?>
-                </tbody>
-            </table>
-            <a href="add_beverage.php" class="admin-button">Add Beverages</a>
-        </div>
+                    <?php } ?>
+                </table>
+                <a href="add_user.php" class="admin-button">Add New User</a>
+            </section>
 
-        <section id="view-reservations">
-            <h2>View Reservations</h2>
-            <table class="admin-table">
-                <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Date</th>
-                    <th>Time</th>
-                    <th>People</th>
-                    <th>Requests</th>
-                </tr>
-                <?php while ($reservation = $reservations_result->fetch_assoc()) { ?>
+            <!-- Manage Beverages Section -->
+            <div id="manage-items" class="dashboard-section">
+                <h2>Manage Beverages</h2>
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Add-ons</th>
+                            <th>Price (Regular)</th>
+                            <th>Price (Large)</th>
+                            <th>Price (Add-ons)</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php while ($item = $items_result->fetch_assoc()): ?>
+                            <tr>
+                                <td><?php echo $item['id']; ?></td>
+                                <td><?php echo $item['name']; ?></td>
+                                <td><?php echo $item['add_ons']; ?></td>
+                                <td><?php echo $item['price_regular']; ?></td>
+                                <td><?php echo $item['price_large']; ?></td>
+                                <td><?php echo $item['price_add_ons']; ?></td>
+                                <td>
+                                    <a href="edit_beverage.php?id=<?php echo $item['id']; ?>">Edit</a> |
+                                    <a href="delete_beverage.php?id=<?php echo $item['id']; ?>"
+                                        onclick="return confirm('Are you sure you want to delete this beverage?');">Delete</a>
+                                </td>
+                            </tr>
+                        <?php endwhile; ?>
+                    </tbody>
+                </table>
+                <a href="add_beverage.php" class="admin-button">Add Beverages</a>
+            </div>
+
+            <!-- Reservation- section -->
+            <section id="view-reservations">
+                <h2>View Reservations</h2>
+                <table class="admin-table">
                     <tr>
-                        <td><?php echo $reservation['name']; ?></td>
-                        <td><?php echo $reservation['email']; ?></td>
-                        <td><?php echo $reservation['phone']; ?></td>
-                        <td><?php echo $reservation['date']; ?></td>
-                        <td><?php echo $reservation['time']; ?></td>
-                        <td><?php echo $reservation['people']; ?></td>
-                        <td><?php echo $reservation['requests']; ?></td>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>People</th>
+                        <th>Requests</th>
                     </tr>
-                <?php } ?>
-            </table>
-        </section>
+                    <?php while ($reservation = $reservations_result->fetch_assoc()) { ?>
+                        <tr>
+                            <td><?php echo $reservation['name']; ?></td>
+                            <td><?php echo $reservation['email']; ?></td>
+                            <td><?php echo $reservation['phone']; ?></td>
+                            <td><?php echo $reservation['date']; ?></td>
+                            <td><?php echo $reservation['time']; ?></td>
+                            <td><?php echo $reservation['people']; ?></td>
+                            <td><?php echo $reservation['requests']; ?></td>
+                        </tr>
+                    <?php } ?>
+                </table>
+            </section>
+        </div>
     </div>
-</div>
 
     <!-- footer-section -->
     <footer>
