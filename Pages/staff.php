@@ -39,6 +39,7 @@ $pre_orders_result = $conn->query($pre_orders_sql);
     <link rel="stylesheet" href="../Styles/staff.css">
     <link rel="stylesheet" href="../Styles/headerStyle.css">
     <link rel="stylesheet" href="../Styles/footer.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
      <!-- Header Section -->
@@ -61,11 +62,11 @@ $pre_orders_result = $conn->query($pre_orders_sql);
                     </a>
 
                     <?php if (!isset($_SESSION['role'])): ?>
-                        <a href="../Pages/login.html" class="register">
+                        <a href="../Pages/login.php" class="register">
                             <img src="../Assets/icons/register.png" alt="Login" /> Login
                         </a>
                     <?php else: ?>
-                        <a href="../Pages/user.html" class="register">
+                        <a href="" class="register">
                             <img src="../Assets/icons/register.png" alt="User" />
                             <?php echo htmlspecialchars($_SESSION['username']); ?>
                         </a>

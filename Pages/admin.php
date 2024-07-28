@@ -54,6 +54,7 @@ if (!$reservations_result) {
     <link rel="stylesheet" href="../Styles/headerStyle.css" />
     <link rel="stylesheet" href="../Styles/admin.css">
     <link rel="stylesheet" href="../Styles/footer.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 
 <body>
@@ -77,7 +78,7 @@ if (!$reservations_result) {
                     </a>
 
                     <?php if (!isset($_SESSION['role'])): ?>
-                        <a href="../Pages/login.html" class="register">
+                        <a href="../Pages/login.php" class="register">
                             <img src="../Assets/icons/register.png" alt="Login" /> Login
                         </a>
                     <?php else: ?>

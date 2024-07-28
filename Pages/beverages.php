@@ -11,6 +11,7 @@ session_start();
   <link rel="stylesheet" href="../Styles/headerStyle.css">
   <link rel="stylesheet" href="../Styles/footer.css">
   <link rel="stylesheet" href="../Styles/beverages.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
   <!-- header section -->
@@ -29,16 +30,16 @@ session_start();
             <img src="../Assets/icons/search.png" alt="Search" />
           </a>
 
-          <a href="./Pages/cart.html" class="cart">
+          <a href="./cart.php" class="cart">
             <img src="../Assets/icons/shopping-cart.png" alt="Cart" />
           </a>
 
           <?php if (!isset($_SESSION['role'])): ?>
-            <a href="./login.html" class="register">
+            <a href="./login.php" class="register">
               <img src="../Assets/icons/register.png" alt="Login" />Login
             </a>
           <?php else: ?>
-            <a href="./Pages/user.html" class="register">
+            <a href="" class="register">
               <img src="../Assets/icons/register.png" alt="User" />
               <?php echo htmlspecialchars($_SESSION['username']); ?>
             </a>
@@ -87,64 +88,35 @@ session_start();
         die("Connection failed: " . $conn->connect_error);
       }
 
-      // Fetch beverages data
-      $sql = "SELECT name, add_ons, price_regular, price_large, price_add_ons FROM beverages";
-      $result = $conn->query($sql);
-
-      if ($result->num_rows > 0) {
-        // Output data of each row
-        while ($row = $result->fetch_assoc()) {
-          echo "<li>";
-          echo "<span class='beverage-name'>" . htmlspecialchars($row['name']) . "</span>";
-          echo "<span class='price'>Regular: LKR " . htmlspecialchars($row['price_regular']) . " | Large: LKR " . htmlspecialchars($row['price_large']) . "</span>";
-          if (!empty($row['add_ons'])) {
-              echo "<span class='addons'>Add-ons: " . htmlspecialchars($row['add_ons']) . " (+" . htmlspecialchars($row['price_add_ons']) . " LKR)</span>";
-          }
-          echo "</li>";
-      }      
-      } else {
-        echo "<li>No beverages available</li>";
-      }
-      $conn->close();
-      ?>
-    </ul>
-  </div>
+        // Fetch beverages data
+        $sql = "SELECT id, name, add_ons, price_regular, price_large, price_add_ons FROM beverages";
+        $result = $conn->query($sql);
+  
+        if ($result->num_rows > 0) {
+          // Output data of each row
+          while ($row = $result->fetch_assoc()) {
+            echo "<li>";
+            echo "<span class='beverage-name'>" . htmlspecialchars($row['name']) . "</span>";
+            echo "<span class='price'>Regular: LKR " . htmlspecialchars($row['price_regular']) . " | Large: LKR " . htmlspecialchars($row['price_large']) . "</span>";
+            if (!empty($row['add_ons'])) {
+                echo "<span class='addons'>Add-ons: " . htmlspecialchars($row['add_ons']) . " (+" . htmlspecialchars($row['price_add_ons']) . " LKR)</span>";
+            }
+            echo "<form method='POST' action='add_to_cart.php'>";
+            echo "<input type='hidden' name='beverage_id' value='" . htmlspecialchars($row['id']) . "'>";
+            echo "<button type='submit' class='add-to-cart'>Add to Cart</button>";
+            echo "</form>";
+            echo "</li>";
+        }      
+        } else {
+          echo "<li>No beverages available</li>";
+        }
+        $conn->close();
+        ?>
+      </ul>
+    </div>
 
   <!-- footer-section -->
-  <footer>
-    <div class="footer-container">
-      <div class="footer-section about">
-        <h2>The Gallery Café</h2>
-        <p>Welcome to The Gallery Café, where we blend the love for art and food. Enjoy our carefully curated menu and the artistic ambiance.</p>
-      </div>
-      <div class="footer-section links">
-        <h2>Quick Links</h2>
-        <ul>
-          <li><a href="../index.php">Home</a></li>
-          <li><a href="../Pages/menu.html">Menu</a></li>
-          <li><a href="../Pages/reservation.html">Reservations</a></li>
-          <li><a href="../Pages/aboutUs.html">About Us</a></li>
-          <li><a href="../Pages/contact.html">Contact</a></li>
-        </ul>
-      </div>
-      <div class="footer-section contact">
-        <h2>Contact Us</h2>
-        <ul>
-          <li>Email: info@gallerycafe.com</li>
-          <li>Phone: +1 234 567 890</li>
-          <li>Address: 123 Art St, Creativity City</li>
-        </ul>
-        <div class="social-media" style="margin-top: 10px">
-          <a href="#"><i class="fab fa-facebook-f"></i></a>
-          <a href="#"><i class="fab fa-instagram"></i></a>
-          <a href="#"><i class="fab fa-whatsapp"></i></a>
-          <a href="#"><i class="fab fa-twitter"></i></a>
-        </div>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <p>&copy; 2024 The Gallery Café. All rights reserved.</p>
-    </div>
-  </footer>
+  <?php include("../Components/footer.php"); ?>
+  
 </body>
 </html>

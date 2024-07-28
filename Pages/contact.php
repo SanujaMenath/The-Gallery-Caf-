@@ -11,6 +11,7 @@ session_start();
   <link rel="stylesheet" href="../Styles/headerStyle.css" />
   <link rel="stylesheet" href="../Styles/contact.css" />
   <link rel="stylesheet" href="../Styles/footer.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <title>The Gallery Café - Contact Us</title>
 </head>
 
@@ -30,12 +31,12 @@ session_start();
             <img src="../Assets/icons/search.png" alt="Search" />
           </a>
 
-          <a href="../Pages/cart.html" class="cart">
+          <a href="../Pages/cart.php" class="cart">
             <img src="../Assets/icons/shopping-cart.png" alt="Cart" />
           </a>
 
           <?php if (!isset($_SESSION['role'])): ?>
-            <a href="../Pages/login.html" class="register">
+            <a href="../Pages/login.php" class="register">
               <img src="../Assets/icons/register.png" alt="Login" /> Login
             </a>
           <?php else: ?>

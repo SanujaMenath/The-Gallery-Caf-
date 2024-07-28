@@ -10,7 +10,7 @@
     <div class="unauthorized-container">
         <h1>Unauthorized Access</h1>
         <p>You do not have permission to access this page. Please contact the administrator if you believe this is an error.</p>
-        <a href="./login.html">Return to Login</a>
+        <a href="./login.php">Return to Login</a>
     </div>
 </body>
 </html>

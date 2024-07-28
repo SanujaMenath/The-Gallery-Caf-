@@ -12,6 +12,7 @@ session_start();
   <link rel="stylesheet" href="./Styles/footer.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <link rel="stylesheet" href="./Styles/index.css" />
   <title>The Gallery Café</title>
 </head>
@@ -33,12 +34,12 @@ session_start();
             <img src="./Assets/icons/search.png" alt="Search" />
           </a>
 
-          <a href="./Pages/cart.html" class="cart">
+          <a href="./Pages/cart.php" class="cart">
             <img src="./Assets/icons/shopping-cart.png" alt="Cart" />
           </a>
 
           <?php if (!isset($_SESSION['role'])): ?>
-            <a href="./Pages/login.html" class="register">
+            <a href="./Pages/login.php" class="register">
               <img src="./Assets/icons/register.png" alt="Login" />Login
             </a>
           <?php else: ?>
@@ -81,7 +82,7 @@ session_start();
     <div class="text-container">
       <h1>Welcome to The Gallery Café</h1>
       <p>Where art meets food. Enjoy a delightful experience.</p>
-      <a href="./Pages/reservation.html" class="btn">Make a Reservation</a>
+      <a href="./Pages/reservation.php" class="btn">Make a Reservation</a>
     </div>
   </section>
 

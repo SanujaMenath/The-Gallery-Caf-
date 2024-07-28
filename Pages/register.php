@@ -49,8 +49,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if ($conn->query($sql) === TRUE) {
                 $message = "Registration successful! You can now log in.";
                 //  Redirect to login page
-                //  header("Location: ./login.html");
-                //  exit();
+                  header("Location: ./login.html");
+                  exit();
             } else {
                 $message = "Error: " . $sql . "<br>" . $conn->error;
             }
@@ -67,6 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register - The Gallery Café</title>
     <link rel="stylesheet" href="../Styles/register.css">
+    <link rel="stylesheet" href="../Styles/footer.css">
 </head>
 <body>
     <div class="register-container">
@@ -94,5 +95,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </form>
         <p>Already have an account? <a href="./login.html">Login here</a></p>
     </div>
+
+    <!-- Footer-Section -->
+    <?php include("../Components/footer.php"); ?>
+
 </body>
 </html>

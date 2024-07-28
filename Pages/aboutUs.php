@@ -11,6 +11,7 @@ session_start();
   <link rel="stylesheet" href="../Styles/headerStyle.css" />
   <link rel="stylesheet" href="../Styles/footer.css" />
   <link rel="stylesheet" href="../Styles/aboutUs.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 
 <body>
@@ -35,11 +36,11 @@ session_start();
           </a>
 
           <?php if (!isset($_SESSION['role'])): ?>
-            <a href="./login.html" class="register">
+            <a href="./login.php" class="register">
               <img src="../Assets/icons/register.png" alt="Login" />Login
             </a>
           <?php else: ?>
-            <a href="./Pages/user.html" class="register">
+            <a href="" class="register">
               <img src="../Assets/icons/register.png" alt="User" />
               <?php echo htmlspecialchars($_SESSION['username']); ?>
             </a>
