@@ -26,14 +26,13 @@ body {
   width: 100%;
 }
 
-/* Headings in admin dashboard */
 .admin-container h1,
 .admin-container h2 {
   text-align: center;
   color: #333;
 }
 
-/* Navigation links within admin dashboard */
+/* Navigation links in admin dashboard */
 .admin-nav ul {
   list-style-type: none;
   padding: 0;
@@ -159,3 +158,6 @@ a {
   background-color: #e5533d;
 }
 
+section{
+  padding:20px 0 10px 0 ;
+}

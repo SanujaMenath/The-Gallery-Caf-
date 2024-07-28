@@ -10,7 +10,7 @@
         </div>
         <img src="../Assets/logo.jpg" alt="The Gallery Café" class="logo">
         <div class="header-right">
-          <a href="#" class="search">
+          <a href="./menu.php" class="search">
             <img src="../Assets/icons/search.png" alt="Search">
           </a>
           <a href="./cart.php" class="cart">
