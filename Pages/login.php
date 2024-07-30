@@ -2,70 +2,67 @@
 session_start();
 
 // Database config
-$servername = "localhost";
-$username = "root";
-$password = "root";
-$dbname = "the_gallery_cafe";
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+include("../db.php");
 
 // Check if form is submitted
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Get form data
-    $user = $_POST['username'];
-    $pass = $_POST['password'];
+    $username = $_POST['username'];
+    $password = $_POST['password'];
 
-    // Prepare and bind
-    $stmt = $conn->prepare("SELECT password, role FROM users WHERE username = ?");
-    $stmt->bind_param("s", $user);
-
-    // Execute the statement
-    $stmt->execute();
-    $stmt->store_result();
-
-    // Check if the user exists
-    if ($stmt->num_rows > 0) {
-        // Bind result
-        $stmt->bind_result($hashed_password, $role);
-        $stmt->fetch();
-
-        // Verify password
-        if (password_verify($pass, $hashed_password)) {
-            
-            // Start session and set user role
-            $_SESSION['username'] = $user;
-            $_SESSION['role'] = $role;
-
-            // Redirect based on role
-            switch ($role) {
-                case 'admin':
-                case 'staff':
-                case 'customer':
-                    header("Location: ../index.php");
-                    exit;
-                default:
-                    echo "Unknown role.";
-                    break;
-            }
-        } else {
-            // IF Password is incorrect
-            $errorMsg = "Invalid password.";
-        }
+    // Prepare SQL query based on input type (email or username)
+    if (filter_var($username, FILTER_VALIDATE_EMAIL)) {
+        $sql = "SELECT * FROM users WHERE email = ?";
     } else {
-        // IF User does not exist
-        $errorMsg = "Invalid username.";
+        $sql = "SELECT * FROM users WHERE username = ?";
     }
 
-    // Close statement and connection
-    $stmt->close();
-    $conn->close();
+    // Prepare statement
+    $stmt = mysqli_prepare($conn, $sql);
+
+    // Check if the statement was prepared successfully
+    if ($stmt === false) {
+        die('MySQL prepare statement failed: ' . mysqli_error($conn));
+    }
+
+    // Bind parameters
+    mysqli_stmt_bind_param($stmt, 's', $username);
+
+    // Execute the statement
+    mysqli_stmt_execute($stmt);
+
+    // Get result
+    $result = mysqli_stmt_get_result($stmt);
+
+    if (mysqli_num_rows($result) > 0) {
+        // Fetch user data
+        $user = mysqli_fetch_assoc($result);
+
+        // Check if password column matches
+        if (password_verify($password, $user['password'])) {
+            // Set session variables
+            $_SESSION['username'] = $user['username'];
+            $_SESSION['role'] = $user['role'];
+            $_SESSION['user_id'] = $user['id'];
+
+            // Redirect based on user role
+            header("Location: ../index.php");
+            exit();
+        } else {
+            // Invalid password
+            echo "<script>alert('Invalid password.'); window.location.href = './login.php';</script>";
+        }
+    } else {
+        // No user found
+        echo "<script>alert('No user found with that username or email.'); window.location.href = './login.php';</script>";
+    }
+
+    // Close statement
+    mysqli_stmt_close($stmt);
 }
+
+// Close the database connection
+mysqli_close($conn);
 ?>
 
 <!DOCTYPE html>
@@ -74,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../Styles/headerStyle.css">
+    <link rel="stylesheet" href="../Styles/header.css">
     <link rel="stylesheet" href="../Styles/login.css">
     <link rel="stylesheet" href="../Styles/footer.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -84,59 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <body>
     <!-- header section -->
-    <div class="header">
-        <nav>
-            <div class="header-top">
-                <div class="contact-info-header">
-                    <span class="phone-number">
-                        <img src="../Assets/icons/phone-call.png" alt="Phone" /> +941 122 5580
-                    </span>
-                </div>
-                <img src="../Assets/logo.jpg" alt="The Gallery Café" class="logo" />
-                <div class="header-right">
-                    <a href="#" class="search">
-                        <img src="../Assets/icons/search.png" alt="Search" />
-                    </a>
-
-                    <a href="../Pages/cart.html" class="cart">
-                        <img src="../Assets/icons/shopping-cart.png" alt="Cart" />
-                    </a>
-
-                    <?php if (!isset($_SESSION['role'])): ?>
-                        <a href="../Pages/login.php" class="register">
-                            <img src="../Assets/icons/register.png" alt="Login" /> Login
-                        </a>
-                    <?php else: ?>
-                        <a href="../Pages/user.html" class="register">
-                            <img src="../Assets/icons/register.png" alt="User" />
-                            <?php echo htmlspecialchars($_SESSION['username']); ?>
-                        </a>
-                    <?php endif; ?>
-
-                    <?php if (isset($_SESSION['role'])): ?>
-                        <a href="../Pages/logout.php" class="register">
-                            Logout
-                        </a>
-                    <?php endif; ?>
-
-                </div>
-            </div>
-            <ul class="nav-links">
-                <li><a href="../index.php">Home</a></li>
-                <li><a href="./menu.php">Menu</a></li>
-                <li><a href="./reservation.php">Reservations</a></li>
-
-                <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
-                    <li><a href="./admin.php">Dashboard</a></li>
-                <?php elseif (isset($_SESSION['role']) && $_SESSION['role'] === 'staff'): ?>
-                    <li><a href="./staff.php">Dashboard</a></li>
-                <?php endif; ?>
-
-                <li><a href="./aboutUs.php">About Us</a></li>
-                <li><a href="./contact.php">Contact</a></li>
-            </ul>
-        </nav>
-    </div>
+    <?php include ("../Components/header.php"); ?>
 
     <!-- Login-Form -->
     <div class="main-container">

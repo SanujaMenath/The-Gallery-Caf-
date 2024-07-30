@@ -8,31 +8,24 @@ session_start();
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="./Styles/headerStyle.css">
   <link rel="stylesheet" href="./Styles/footer.css">
+  <link rel="stylesheet" href="./styles/header.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <link rel="stylesheet" href="./Styles/index.css" />
   <title>The Gallery Café</title>
 </head>
-
 <body>
+<header>
   <!-- header section -->
   <div class="header">
     <nav>
       <div class="header-top">
-        <div class="contact-info-header">
-          <span class="phone-number">
-            <img src="./Assets/icons/phone-call.png" alt="Search" />
-            +941 122 5580
-          </span>
-        </div>
-        <img src="./Assets/logo.jpg" alt="The Gallery Café" class="logo" />
+        
+        <!-- <img src="./Assets/logo.jpg" alt="The Gallery Café" class="logo" /> -->
         <div class="header-right">
-          <a href="#" class="search">
-            <img src="./Assets/icons/search.png" alt="Search" />
-          </a>
+          
 
           <a href="./Pages/cart.php" class="cart">
             <img src="./Assets/icons/shopping-cart.png" alt="Cart" />
@@ -80,12 +73,13 @@ session_start();
   <!-- Hero Section -->
   <section class="hero">
     <div class="text-container">
-      <h1>Welcome to The Gallery Café</h1>
+      <h1>The Gallery Café</h1>
       <p>Where art meets food. Enjoy a delightful experience.</p>
       <a href="./Pages/reservation.php" class="btn">Make a Reservation</a>
     </div>
   </section>
-
+  </header>
+  
   <!-- carousel-section -->
   <section class="carousel">
     <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="false">
@@ -303,11 +297,11 @@ session_start();
       <div class="footer-section links">
         <h2>Quick Links</h2>
         <ul>
-          <li><a href="./index.html">Home</a></li>
-          <li><a href="./Pages/menu.html">Menu</a></li>
-          <li><a href="./Pages/reservation.html">Reservations</a></li>
-          <li><a href="./Pages/aboutUs.html">About Us</a></li>
-          <li><a href="./Pages/contact.html">Contact</a></li>
+          <li><a href="./index.php">Home</a></li>
+          <li><a href="./Pages/menu.php">Menu</a></li>
+          <li><a href="./Pages/reservation.php">Reservations</a></li>
+          <li><a href="./Pages/aboutUs.php">About Us</a></li>
+          <li><a href="./Pages/contact.php">Contact</a></li>
         </ul>
       </div>
       <div class="footer-section contact">

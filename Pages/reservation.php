@@ -5,57 +5,60 @@ $message = '';
 
 // Check if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  // Check if the user is logged in
-  if (!isset($_SESSION['role'])) {
-      header("Location: ./login.html");
-      exit();
-  }
+    // Check if the user is logged in
+    if (!isset($_SESSION['role'])) {
+        header("Location: ./login.html");
+        exit();
+    }
 }
+
 // Database configuration
 $servername = "localhost";
-$username = "root"; 
-$password = "root"; 
+$username = "root";
+$password = "root";
 $dbname = "the_gallery_cafe";
 
 // Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
+$conn = mysqli_connect($servername, $username, $password, $dbname);
 
 // Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
 }
 
 // Check if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $name = $conn->real_escape_string($_POST['name']);
-    $email = $conn->real_escape_string($_POST['email']);
-    $phone = $conn->real_escape_string($_POST['phone']);
-    $date = $conn->real_escape_string($_POST['date']);
-    $time = $conn->real_escape_string($_POST['time']);
-    $people = $conn->real_escape_string($_POST['people']);
-    $requests = $conn->real_escape_string($_POST['requests']);
+    $name = mysqli_real_escape_string($conn, $_POST['name']);
+    $email = mysqli_real_escape_string($conn, $_POST['email']);
+    $phone = mysqli_real_escape_string($conn, $_POST['phone']);
+    $date = mysqli_real_escape_string($conn, $_POST['date']);
+    $time = mysqli_real_escape_string($conn, $_POST['time']);
+    $people = mysqli_real_escape_string($conn, $_POST['people']);
+    $requests = mysqli_real_escape_string($conn, $_POST['requests']);
 
     // SQL query to insert reservation
     $sql = "INSERT INTO reservations (name, email, phone, date, time, people, requests)
             VALUES ('$name', '$email', '$phone', '$date', '$time', '$people', '$requests')";
 
-    if ($conn->query($sql) === TRUE) {
-        $message = "Reservation made successfully!";
-    } else {
-        $message = "Error: " . $sql . "<br>" . $conn->error;
-    }
-    $conn->close();
-} else {
-    $message = '';
-}
+    if (mysqli_query($conn, $sql)) {
+      // If insertion is successful, show success message and redirect to login page
+      echo "<script>alert('Reservation made successfully!'); window.location.href = './reservation.php';</script>";
+  } else {
+      // If insertion fails, show error message and redirect to registration page
+      echo "<script>alert('Error: " . mysqli_error($conn) . "'); window.location.href = './reservation.php';</script>";
+  }
+
+    mysqli_close($conn);
+} 
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../Styles/headerStyle.css">
+    <link rel="stylesheet" href="../Styles/header.css">
     <link rel="stylesheet" href="../Styles/reservation.css">
     <link rel="stylesheet" href="../Styles/footer.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -63,59 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 <body>
    <!-- header section -->
-   <div class="header">
-    <nav>
-      <div class="header-top">
-        <div class="contact-info-header">
-          <span class="phone-number">
-            <img src="../Assets/icons/phone-call.png" alt="Phone" /> +941 122 5580
-          </span>
-        </div>
-        <img src="../Assets/logo.jpg" alt="The Gallery Café" class="logo" />
-        <div class="header-right">
-          <a href="#" class="search">
-            <img src="../Assets/icons/search.png" alt="Search" />
-          </a>
-
-          <a href="../Pages/cart.php" class="cart">
-            <img src="../Assets/icons/shopping-cart.png" alt="Cart" />
-          </a>
-
-          <?php if (!isset($_SESSION['role'])): ?>
-            <a href="../Pages/login.php" class="register">
-              <img src="../Assets/icons/register.png" alt="Login" /> Login
-            </a>
-          <?php else: ?>
-            <a href="" class="register">
-              <img src="../Assets/icons/register.png" alt="User" />
-              <?php echo htmlspecialchars($_SESSION['username']); ?>
-            </a>
-          <?php endif; ?>
-
-          <?php if (isset($_SESSION['role'])): ?>
-            <a href="../Pages/logout.php" class="register">
-              Logout
-            </a>
-          <?php endif; ?>
-
-        </div>
-      </div>
-      <ul class="nav-links">
-        <li><a href="../index.php">Home</a></li>
-        <li><a href="./menu.php">Menu</a></li>
-        <li><a href="./reservation.php">Reservations</a></li>
-
-        <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
-          <li><a href="./admin.php">Dashboard</a></li>
-        <?php elseif (isset($_SESSION['role']) && $_SESSION['role'] === 'staff'): ?>
-          <li><a href="./staff.php">Dashboard</a></li>
-        <?php endif; ?>
-
-        <li><a href="./aboutUs.php">About Us</a></li>
-        <li><a href="./contact.php">Contact</a></li>
-      </ul>
-    </nav>
-  </div>
+   <?php include ("../Components/header.php"); ?>
 
     <!-- reservation-section -->
     <div class="reservation-container">

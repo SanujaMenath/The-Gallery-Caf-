@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 // Database configuration
 $servername = "localhost";
 $username = "root";
@@ -7,32 +8,48 @@ $password = "root";
 $dbname = "the_gallery_cafe";
 
 // Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
+$conn = mysqli_connect($servername, $username, $password, $dbname);
 
 // Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
 }
-
 
 // Check if a search query is set
 $searchQuery = isset($_GET['search']) ? $_GET['search'] : '';
 
+// Prepare SQL query
 $query = "SELECT * FROM cuisine_items";
 if (!empty($searchQuery)) {
     $query .= " WHERE cuisine_type LIKE ?";
 }
 
-$stmt = $conn->prepare($query);
+// Prepare statement
+$stmt = mysqli_prepare($conn, $query);
 
-if (!empty($searchQuery)) {
-    $searchParam = '%' . $searchQuery . '%';
-    $stmt->bind_param("s", $searchParam);
+// Check if the statement was prepared successfully
+if ($stmt === false) {
+    die("Prepare failed: " . mysqli_error($conn));
 }
 
-$stmt->execute();
-$result = $stmt->get_result();
+// Bind parameters if search query is present
+if (!empty($searchQuery)) {
+    $searchParam = '%' . $searchQuery . '%';
+    mysqli_stmt_bind_param($stmt, "s", $searchParam);
+}
+
+// Execute the statement
+mysqli_stmt_execute($stmt);
+
+// Get result
+$result = mysqli_stmt_get_result($stmt);
+
+// Check if result retrieval was successful
+if ($result === false) {
+    die("Execute failed: " . mysqli_error($conn));
+}
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -40,7 +57,7 @@ $result = $stmt->get_result();
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="../Styles/headerStyle.css">
+  <link rel="stylesheet" href="../Styles/header.css">
   <link rel="stylesheet" href="../Styles/menu.css" />
   <link rel="stylesheet" href="../Styles/footer.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">

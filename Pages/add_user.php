@@ -8,51 +8,47 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== "admin") {
 }
 
 // Database connection
-$servername = "localhost";
-$username = "root";
-$password = "root";
-$dbname = "the_gallery_cafe";
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+include("../db.php");
 
 // Check if the form is submitted
-if ($_SERVER["REQUEST_METHOD"] == "POST"  && ($_SESSION['role'] === "admin")) {
-    $first_name = $conn->real_escape_string($_POST['first_name']);
-    $last_name = $conn->real_escape_string($_POST['last_name']);
-    $username = $conn->real_escape_string($_POST['username']);
+if ($_SERVER["REQUEST_METHOD"] == "POST" && ($_SESSION['role'] === "admin")) {
+    $first_name = mysqli_real_escape_string($conn, $_POST['first_name']);
+    $last_name = mysqli_real_escape_string($conn, $_POST['last_name']);
+    $username = mysqli_real_escape_string($conn, $_POST['username']);
     $password = password_hash($_POST['password'], PASSWORD_BCRYPT); // Hashing the password
-    $email = $conn->real_escape_string($_POST['email']);
-    $role = $conn->real_escape_string($_POST['role']);
+    $email = mysqli_real_escape_string($conn, $_POST['email']);
+    $role = mysqli_real_escape_string($conn, $_POST['role']);
     
     // SQL query to insert new user
     $sql = "INSERT INTO users (first_name, last_name, username, password, email, role, created_at) 
             VALUES ('$first_name', '$last_name', '$username', '$password', '$email', '$role', NOW())";
     
-    if ($conn->query($sql) === TRUE) {
+    if (mysqli_query($conn, $sql)) {
         echo "<p>New user created successfully</p>";
     } else {
-        echo "<p>Error: " . $sql . "<br>" . $conn->error . "</p>";
+        echo "<p>Error: " . $sql . "<br>" . mysqli_error($conn) . "</p>";
     }
 }
 
-$conn->close();
+mysqli_close($conn);
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+< lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../Styles/header.css">
+    <link rel="stylesheet" href="../Stylesfooter.css">
     <link rel="stylesheet" href="../Styles/login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <title>Add New User - The Gallery Café</title>
 </head>
 <body>
+      <!-- header section -->
+      <?php include ("../Components/header.php"); ?>
+
+     <!-- Add users -->
     <div class="login-container">
         <h1>Add New User</h1>
         <form method="post" action="">
@@ -89,5 +85,8 @@ $conn->close();
             <a href="./admin.php"> <button type="submit">Go Back</button></a>
         </form>
     </div>
+
+<!-- footer-section -->
+<?php include ("../Components/footer.php"); ?>
 </body>
 </html>

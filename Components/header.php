@@ -2,17 +2,9 @@
  <div class="header">
     <nav>
       <div class="header-top">
-        <div class="contact-info-header">
-          <span class="phone-number">
-            <img src="../Assets/icons/phone-call.png" alt="Search">
-            +941 122 5580
-          </span>
-        </div>
-        <img src="../Assets/logo.jpg" alt="The Gallery Café" class="logo">
+        
         <div class="header-right">
-          <a href="./menu.php" class="search">
-            <img src="../Assets/icons/search.png" alt="Search">
-          </a>
+         
           <a href="./cart.php" class="cart">
             <img src="../Assets/icons/shopping-cart.png" alt="Cart">
           </a>

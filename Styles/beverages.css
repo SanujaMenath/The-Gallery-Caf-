@@ -6,32 +6,6 @@ body {
     background-color: #f4f4f4;
 }
 
-.header {
-    background-color: #a0522d;
-    color: white;
-    padding: 20px 0;
-    text-align: center;
-}
-
-.logo {
-    width: 150px;
-}
-
-.nav-links {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-}
-
-.nav-links li {
-    margin: 0 15px;
-}
-
-.nav-links a {
-    color: white;
-    text-decoration: none;
-}
 /* Beverages menu container */
 .beverages-menu {
     max-width: 800px;

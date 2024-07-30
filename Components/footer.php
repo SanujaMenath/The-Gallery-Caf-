@@ -10,11 +10,11 @@
         <div class="footer-section links">
           <h2>Quick Links</h2>
           <ul>
-            <li><a href="./index.html">Home</a></li>
-            <li><a href="./Pages/menu.html">Menu</a></li>
-            <li><a href="./Pages/reservation.html">Reservations</a></li>
-            <li><a href="./Pages/aboutUs.html">About Us</a></li>
-            <li><a href="./Pages/contact.html">Contact</a></li>
+            <li><a href="./index.php">Home</a></li>
+            <li><a href="./Pages/menu.php">Menu</a></li>
+            <li><a href="./Pages/reservation.php">Reservations</a></li>
+            <li><a href="./Pages/aboutUs.php">About Us</a></li>
+            <li><a href="./Pages/contact.php">Contact</a></li>
           </ul>
         </div>
         <div class="footer-section contact">

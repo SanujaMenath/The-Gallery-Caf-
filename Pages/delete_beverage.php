@@ -7,17 +7,25 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
 }
 
 // Database configuration
-$servername = "localhost";
-$username = "root";
-$password = "root";
-$dbname = "the_gallery_cafe";
+include ("../db.php");
 
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
+if (isset($_GET['id'])) {
+    $id = $_GET['id'];
 
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+    $stmt = $conn->prepare("DELETE FROM beverages WHERE id = ?");
+    $stmt->bind_param("i", $id);
+
+    if ($stmt->execute()) {
+        header("Location: ./manage_beverages.php");
+        exit();
+    } else {
+        echo "Error: " . $stmt->error;
+    }
+
+    $stmt->close();
 }
+
+$conn->close();
+?>
 
 
