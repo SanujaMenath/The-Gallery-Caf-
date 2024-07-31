@@ -22,10 +22,8 @@ session_start();
   <div class="header">
     <nav>
       <div class="header-top">
-        
         <!-- <img src="./Assets/logo.jpg" alt="The Gallery Café" class="logo" /> -->
         <div class="header-right">
-          
 
           <a href="./Pages/cart.php" class="cart">
             <img src="./Assets/icons/shopping-cart.png" alt="Cart" />
@@ -47,11 +45,8 @@ session_start();
               Logout
             </a>
           <?php endif; ?>
-
-
         </div>
       </div>
-
       <ul class="nav-links">
         <li><a href="./index.php">Home</a></li>
         <li><a href="./Pages/menu.php">Menu</a></li>

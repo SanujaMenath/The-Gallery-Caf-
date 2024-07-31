@@ -11,7 +11,7 @@ const menuData = {
             image: "../Assets/menu/pizza.jpg"
         }
     ],
-    sushi: [
+    japanese: [
         {
             name: "Sushi Platter",
             description: "Assorted sushi with fresh fish, served with soy sauce and wasabi.",

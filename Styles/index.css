@@ -1,4 +1,5 @@
 body {
+  font-family: Arial,  sans-serif;
   padding: 0;
   margin: 0;
   background-color: white;
@@ -16,7 +17,7 @@ header {
 
 .text-container {
   position: relative;
-  z-index: 2;
+  z-index: 1;
 }
 
 .text-container h1 {
@@ -52,6 +53,7 @@ header {
   text-align: center;
   margin: 20px auto;
   max-width: 1200px;
+  z-index: -1      ;
 }
 
 .carousel-inner img {

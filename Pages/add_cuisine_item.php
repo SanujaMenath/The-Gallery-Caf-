@@ -1,39 +1,47 @@
 <?php
 session_start();
+
 // Check if the user is admin
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
     header("Location: ./unauthorized.php");
     exit();
 }
 
- include '../db.php';
+include '../db.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $name = $_POST['name'];
-    $description = $_POST['description'];
+    // Sanitize user inputs
+    $name = mysqli_real_escape_string($conn, $_POST['name']);
+    $description = mysqli_real_escape_string($conn, $_POST['description']);
 
     // Check if file was uploaded without errors
-  
+    if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
         $image = $_FILES['image']['tmp_name'];
         $imgContent = addslashes(file_get_contents($image));
 
         // SQL Query to insert the new product into the database
-        $sql = "INSERT INTO cuisine_items (cuisine_type, image,description) VALUES ('$name', '$imgContent', '$description')";
+        $sql = "INSERT INTO cuisine_items (cuisine_type, image, description) VALUES ('$name', '$imgContent', '$description')";
 
-        if(mysqli_query($conn, $sql)){
+        if (mysqli_query($conn, $sql)) {
             echo "<script>
                alert('Cuisine Type added successfully!'); 
-               window.location.href = 'admin.php';
+               window.location.href = 'add_cuisine_item.php';
             </script>";
-         } else {
+        } else {
             echo "<script>
                alert('Error: " . mysqli_error($conn) . "');
-               window.location.href = 'admin.php';
+               window.location.href = 'add_cuisine_item.php';
             </script>";
-         }
+        }
+    } else {
+        echo "<script>
+           alert('Error uploading image. Please try again.');
+           window.location.href = 'add_cuisine_item.php';
+        </script>";
+    }
 }
 
-//Close the database connection
+// Close the database connection
 mysqli_close($conn);
 ?>
 
@@ -45,7 +53,7 @@ mysqli_close($conn);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Cuisine Item - The Gallery Café</title>
-    <link rel="stylesheet" href="../Styles/headerStyle.css">
+    <link rel="stylesheet" href="../Styles/header.css">
     <link rel="stylesheet" href="../Styles/admin.css">
     <link rel="stylesheet" href="../Styles/footer.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">

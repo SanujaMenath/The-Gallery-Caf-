@@ -55,10 +55,8 @@ if (!$reservations_result) {
 }
 ?>
 
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -84,10 +82,12 @@ if (!$reservations_result) {
                 <h1>Admin Profile</h1>
                 <form action="admin_profile.php" method="POST" enctype="multipart/form-data">
 
-                    <?php if ($admin['profile_image']): ?>
+                   <div class="pro-pic">
+                   <?php if ($admin['profile_image']): ?>
                         <img src="data:image/jpeg;base64,<?php echo base64_encode($admin['profile_image']); ?>"
                             alt="Profile Image" width="100">
                     <?php endif; ?>
+                   </div>
                     <label for="profile_image">Profile Image:</label>
                     <input type="file" id="profile_image" name="profile_image" accept="image/*">
 
@@ -103,7 +103,7 @@ if (!$reservations_result) {
                     <input type="text" id="last_name" name="last_name"
                         value="<?php echo htmlspecialchars($admin['last_name']); ?>" required>
                     <br>
-                    <div class="chnage-password">
+                    <div class="change-password">
                         <a href="./change_password.php">Change Password </a>
                     </div>
                     <button type="submit">Update Profile</button>

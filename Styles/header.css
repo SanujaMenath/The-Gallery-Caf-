@@ -18,16 +18,6 @@
     padding: 0 20px;
   }
   
-  .phone-number {
-    font-size: 14px;
-  }
-  .phone-number:hover {
-    text-decoration: underline;
-  }
-  .phone-number img{
-    width: 30px;
-    height: 30px;
-  }
   
   .header-right {
     display: flex;
@@ -90,4 +80,8 @@
   .register img{
     height: 25px; 
     width: 25px;
+  }
+  .register span{
+   
+
   }

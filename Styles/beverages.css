@@ -6,60 +6,49 @@ body {
     background-color: #f4f4f4;
 }
 
-/* Beverages menu container */
+/* Main Beverage Menu */
 .beverages-menu {
-    max-width: 800px;
-    margin: 20px auto;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-/* Heading styling */
-.beverages-menu h1 {
-    text-align: center;
-    color: #333;
-    font-size: 2.5rem;
-    margin-bottom: 20px;
-}
-
-/* Beverages list styling */
-.beverage-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-/* Beverage item styling */
-.beverage-list li {
+    margin-top: 20px;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
-    padding: 15px;
-    border-bottom: 1px solid #ddd;
+    margin-bottom: 30px;
 }
 
-.beverage-list li:last-child {
-    border-bottom: none;
+.beverage-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
 }
 
-/* Beverage name and price styling */
-.beverage-name {
-    display: block;
-    font-size: 1.2rem;
+.beverage-item {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    width: 200px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.beverage-item:hover {
+    transform: scale(1.05);
+}
+
+.beverage-item img {
+    border-radius: 10px;
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    margin-bottom: 15px;
+}
+
+.beverage-item h2 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
     color: #333;
 }
 
-.price {
-    display: block;
-    font-size: 1rem;
-    color: #666;
-}
 
-.addons {
-    font-size: 0.9rem;
-    color: #ff6f61;
-    display: block;
-    margin-top: 5px;
-}

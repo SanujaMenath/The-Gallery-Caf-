@@ -2,18 +2,7 @@
 session_start();
 
 // Database configuration
-$servername = "localhost";
-$username = "root";
-$password = "root";
-$dbname = "the_gallery_cafe";
-
-// Create connection
-$conn = mysqli_connect($servername, $username, $password, $dbname);
-
-// Check connection
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
-}
+include("../db.php");
 
 // Check if a search query is set
 $searchQuery = isset($_GET['search']) ? $_GET['search'] : '';
@@ -109,28 +98,6 @@ if ($result === false) {
 
     <!-- cuisine items -->
     <div class="cuisine-grid">
-      
-      <div class="cuisine-item" onclick="showCuisine('mexican')">
-        <img src="../Assets/menu/mexican.jpg" alt="Mexican" />
-        <h2>Mexican</h2>
-      </div>
-      <div class="cuisine-item" onclick="showCuisine('french')">
-        <img src="../Assets/menu/french.jpg" alt="French" />
-        <h2>French</h2>
-      </div>
-      <div class="cuisine-item" onclick="showCuisine('srilankan')">
-        <img src="../Assets/menu/sri-lankan.jpg" alt="Sri Lankan" />
-        <h2>Sri Lankan</h2>
-      </div>
-     
-      <div class="cuisine-item" onclick="showCuisine('chinese')">
-        <img src="../Assets/menu/chinese.jpg" alt="Chinese" />
-        <h2>Chinese</h2>
-      </div>
-      <div class="cuisine-item" onclick="showCuisine('thai')">
-        <img src="../Assets/menu/thai-food.jpg" alt="Thai" />
-        <h2>Thai</h2>
-      </div>
     
       <?php 
       $allCuisinesQuery = "SELECT * FROM cuisine_items";

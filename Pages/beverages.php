@@ -1,7 +1,13 @@
 <?php
 session_start();
-?>
 
+// Database configuration
+include ("../db.php");
+
+// Fetch beverages data
+$sql = "SELECT id, name, image FROM beverages";
+$result = mysqli_query($conn, $sql);
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -22,41 +28,29 @@ session_start();
   <!-- beverages-section -->
   <div class="beverages-menu">
     <h1>Beverages Menu</h1>
-    <ul class="beverage-list">
+    <div class="beverage-grid">
       <?php
-      // Database configuration
-      include ("../db.php");
-
-      // Fetch beverages data
-      $sql = "SELECT id, name, image, price_regular, price_large FROM beverages";
-      $result = $conn->query($sql);
-
-      if ($result->num_rows > 0) {
         // Output data of each row
-        while ($row = $result->fetch_assoc()) {
-          echo "<li>";
-          echo "<span class='beverage-name'>" . htmlspecialchars($row['name']) . "</span>";
-          echo "<span class='price'>Regular: LKR " . htmlspecialchars($row['price_regular']) . " | Large: LKR " . htmlspecialchars($row['price_large']) . "</span>";
-          if (!empty($row['add_ons'])) {
-            echo "<span class='addons'>Image: " . htmlspecialchars($row['image']) . " </span>";
+        if ($result && mysqli_num_rows($result) > 0) {
+          while ($row = mysqli_fetch_assoc($result)) {
+              echo "<div class='beverage-item' onclick=\"window.location.href='beverage_details.php?id=" . htmlspecialchars($row['id']) . "'\">";
+              if (!empty($row['image'])) {
+                  $imageData = base64_encode($row['image']);
+                  echo "<img src='data:image/jpeg;base64," . $imageData . "' alt='" . htmlspecialchars($row['name']) . "' class='beverage-image'>";
+              }
+              echo "<h2 class='beverage-name'>" . htmlspecialchars($row['name']) . "</h2>";
+              echo "</div>";
           }
-          echo "<form method='POST' action='add_to_cart.php'>";
-          echo "<input type='hidden' name='beverage_id' value='" . htmlspecialchars($row['id']) . "'>";
-          echo "<button type='submit' class='add-to-cart'>Add to Cart</button>";
-          echo "</form>";
-          echo "</li>";
-        }
       } else {
-        echo "<li>No beverages available</li>";
+          echo "<div>No beverages available</div>";
       }
       $conn->close();
       ?>
-    </ul>
+    </div>
   </div>
 
   <!-- footer-section -->
   <?php include ("../Components/footer.php"); ?>
 
 </body>
-
 </html>
