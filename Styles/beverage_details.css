@@ -1,45 +1,103 @@
 /* Detailed Beverage Page */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f2f2f2;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.beverage-grid {
+  display: grid;
+  grid-template-columns: auto auto;
+  min-width: 800px;
+  max-width: 1200px;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  text-align: left;
+}
 .beverage-details {
-    max-width: 800px;
-    margin: 20px auto;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
+  padding: 15px;
 }
 
 .beverage-details h1 {
-    font-size: 2em;
-    margin-bottom: 20px;
+  font-size: 2em;
+  color: #333;
 }
 
 .beverage-details .beverage-image {
-    max-width: 100%;
-    height: auto;
-    border-radius: 10px;
-    margin-bottom: 20px;
+  object-fit: cover;
+  min-width: 300px;
+  width: 100%;
+  height: 300px;
+  border-radius: 10px;
+}
+
+.beverage-details .description {
+  font-size: 1 rem;
+  color: #666;
+  margin-bottom: 20px;
 }
 
 .beverage-details .price {
-    font-size: 1.2em;
-    color: #333;
-    margin-bottom: 20px;
+  font-size: 1.2em;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.quantity-selector {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.quantity-selector button {
+  width: 40px;
+  height: 40px;
+  background-color: #ff7b00;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.2em;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.quantity-selector button:hover {
+  background-color: #b34500;
+}
+
+.quantity-selector input {
+  width: 60px;
+  text-align: center;
+  font-size: 1.2em;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 6px;
+  margin: 0 5px;
 }
 
 .beverage-details .add-to-cart {
-    display: inline-block;
-    padding: 10px 20px;
-    font-size: 1em;
-    color: #fff;
-    background-color: #007bff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    text-align: center;
-    text-decoration: none;
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 1rem;
+  color: #fff;
+  background-color: #ff7b00;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 0.3s;
 }
 
 .beverage-details .add-to-cart:hover {
-    background-color: #0056b3;
+  background-color: #a64103;
 }

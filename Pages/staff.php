@@ -7,31 +7,53 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'staff') {
 }
 
 // Database configuration
-$servername = "localhost";
-$username = "root";
-$password = "root";
-$dbname = "the_gallery_cafe";
+include("../db.php");
 
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
+// Fetch staff details
+$staff_id = $_SESSION['user_id'];
+$sql = "SELECT * FROM users WHERE id = $staff_id";
+$result = mysqli_query($conn, $sql);
+$staff = mysqli_fetch_assoc($result);
 
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+// Handle profile update
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $new_username = $_POST['new_username'];
+    $firstName =  $_POST['first_name'];
+    $lastName =  $_POST['last_name'];
+
+    $sql = "UPDATE users SET username = '$username', first_name = '$firstName', last_name = '$lastName' WHERE id = $staff_id";
+
+    if (mysqli_query($conn, $sql)) {
+        $_SESSION['username'] = $new_username;
+        echo "<script>alert('Changed profile details successfully!'); window.location.href = './staff.php';</script>";
+    } else {
+        echo "<script>alert('Unsuccessful attempt!'); window.location.href = './staff.php';</script>";
+    }
+
+        // Check if a profile image was uploaded
+        if (mysqli_query($conn, $sql)) {
+        if (isset($_FILES['profile_image']) && $_FILES['profile_image']['error'] == 0) {
+            $image = file_get_contents($_FILES['profile_image']['tmp_name']);
+            $image = mysqli_real_escape_string($conn, $image);
+            $sql = "UPDATE users SET profile_image = '$image' WHERE id = $staff_id";
+            mysqli_query($conn, $sql);
+            echo "<script>alert('Changed profile details successfully!'); window.location.href = './staff.php';</script>";
+        }   header("Location: staff.php");
+        exit();
+    } else {
+        echo "Error: " . mysqli_error($conn);
+        echo "<script>alert('Unsuccessful attempt!'); window.location.href = './staff.php';</script>";
+    }
+
+      
 }
 
-// Fetch all reservations
-$reservations_sql = "SELECT * FROM reservations";
-$reservations_result = $conn->query($reservations_sql);
-
-// Fetch all pre-orders
-$pre_orders_sql = "SELECT * FROM pre_orders";
-$pre_orders_result = $conn->query($pre_orders_sql);
-
+mysqli_close($conn);
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -41,85 +63,59 @@ $pre_orders_result = $conn->query($pre_orders_sql);
     <link rel="stylesheet" href="../Styles/footer.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
-<include>
-     <!-- Header Section -->
-     <?php include ("../Components/header.php"); ?>
+
+<body>
+    <!-- Header Section -->
+    <?php include("../Components/header.php"); ?>
 
     <!-- staff-Dashboard -->
     <div class="staff-container">
         <h1>Staff Dashboard - The Gallery Café</h1>
         <nav>
             <ul>
-                <li><a href="#view-reservations">View Reservations</a></li>
-                <li><a href="#process-pre-orders">Process Pre-orders</a></li>
+                <li><a href="./staff.php">Profile</a></li>
+                <li><a href="./staff_manage_reservation.php">View Reservations</a></li>
+                <li><a href="./staff_manage_preorder.php">Process Pre-orders</a></li>
                 <li><a href="logout.php">Logout</a></li>
             </ul>
         </nav>
 
-        <section id="view-reservations">
-            <h2>View Reservations</h2>
-            <table>
-                <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Date</th>
-                    <th>Time</th>
-                    <th>People</th>
-                    <th>Requests</th>
-                    <th>Actions</th>
-                </tr>
-                <?php while ($reservation = $reservations_result->fetch_assoc()) { ?>
-                <tr>
-                    <td><?php echo $reservation['name']; ?></td>
-                    <td><?php echo $reservation['email']; ?></td>
-                    <td><?php echo $reservation['phone']; ?></td>
-                    <td><?php echo $reservation['date']; ?></td>
-                    <td><?php echo $reservation['time']; ?></td>
-                    <td><?php echo $reservation['people']; ?></td>
-                    <td><?php echo $reservation['requests']; ?></td>
-                    <td>
-                        <a href="confirm_reservation.php?id=<?php echo $reservation['id']; ?>">Confirm</a> |
-                        <a href="modify_reservation.php?id=<?php echo $reservation['id']; ?>">Modify</a> |
-                        <a href="cancel_reservation.php?id=<?php echo $reservation['id']; ?>">Cancel</a>
-                    </td>
-                </tr>
-                <?php } ?>
-            </table>
-        </section>
+        <!-- Profile Section -->
+        <div class="profile-container">
+            <h1>My Profile</h1>
+            <form method="post" action="" enctype="multipart/form-data">
+                <div class="pro-pic">
+                    <?php if ($staff['profile_image']): ?>
+                        <img src="data:image/jpeg;base64,<?php echo base64_encode($staff['profile_image']); ?>"
+                            alt="Profile Image" width="100">
+                    <?php endif; ?>
+                </div>
+                <label for="profile_image">Change Profile Image:</label>
+                <input type="file" id="profile_image" name="profile_image" accept="image/*">
 
-        <section id="process-pre-orders">
-            <h2>Process Pre-orders</h2>
-            <table>
-                <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Order Details</th>
-                    <th>Actions</th>
-                </tr>
-                <?php while ($pre_order = $pre_orders_result->fetch_assoc()) { ?>
-                <tr>
-                    <td><?php echo $pre_order['name']; ?></td>
-                    <td><?php echo $pre_order['email']; ?></td>
-                    <td><?php echo $pre_order['phone']; ?></td>
-                    <td><?php echo $pre_order['order_details']; ?></td>
-                    <td>
-                        <a href="confirm_pre_order.php?id=<?php echo $pre_order['id']; ?>">Confirm</a> |
-                        <a href="modify_pre_order.php?id=<?php echo $pre_order['id']; ?>">Modify</a> |
-                        <a href="cancel_pre_order.php?id=<?php echo $pre_order['id']; ?>">Cancel</a>
-                    </td>
-                </tr>
-                <?php } ?>
-            </table>
-        </section>
+                <label for="username">Username:</label>
+                <input type="text" id="new_username" name="new_username"
+                    value="<?php echo htmlspecialchars($staff['username']); ?>" >
+
+                <label for="first_name">First Name:</label>
+                <input type="text" id="first_name" name="first_name"
+                    value="<?php echo htmlspecialchars($staff['first_name']); ?>" >
+
+                <label for="last_name">Last Name:</label>
+                <input type="text" id="last_name" name="last_name"
+                    value="<?php echo htmlspecialchars($staff['last_name']); ?>" >
+                <br>
+                <div class="change-password">
+                    <a href="./change_password.php">Change Password </a>
+                </div>
+                <button type="submit">Update Profile</button>
+            </form>
+        </div>
+
     </div>
 
-      <!-- footer-section -->
-      <?php include ("../Components/footer.php"); ?>
+    <!-- footer-section -->
+    <?php include("../Components/footer.php"); ?>
 </body>
-</html>
 
-<?php
-$conn->close();
-?>
+</html>

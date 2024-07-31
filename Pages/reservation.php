@@ -1,30 +1,20 @@
 <?php
 session_start();
-// Initialize message variable
-$message = '';
-
 // Check if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Check if the user is logged in
     if (!isset($_SESSION['role'])) {
-        header("Location: ./login.html");
+        header("Location: ./login.php");
         exit();
     }
 }
 
 // Database configuration
-$servername = "localhost";
-$username = "root";
-$password = "root";
-$dbname = "the_gallery_cafe";
+include("../db.php");
 
-// Create connection
-$conn = mysqli_connect($servername, $username, $password, $dbname);
-
-// Check connection
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
-}
+// Fetch available tables
+$tables_sql = "SELECT table_number, capacity FROM tables";
+$tables_result = mysqli_query($conn, $tables_sql);
 
 // Check if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -35,21 +25,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $time = mysqli_real_escape_string($conn, $_POST['time']);
     $people = mysqli_real_escape_string($conn, $_POST['people']);
     $requests = mysqli_real_escape_string($conn, $_POST['requests']);
+    $table_number = mysqli_real_escape_string($conn, $_POST['table_number']);
 
-    // SQL query to insert reservation
-    $sql = "INSERT INTO reservations (name, email, phone, date, time, people, requests)
-            VALUES ('$name', '$email', '$phone', '$date', '$time', '$people', '$requests')";
+    // Check the capacity of the selected table
+    $capacity_sql = "SELECT capacity FROM tables WHERE table_number = '$table_number'";
+    $capacity_result = mysqli_query($conn, $capacity_sql);
+    $table_capacity = mysqli_fetch_assoc($capacity_result)['capacity'];
 
-    if (mysqli_query($conn, $sql)) {
-      // If insertion is successful, show success message and redirect to login page
-      echo "<script>alert('Reservation made successfully!'); window.location.href = './reservation.php';</script>";
-  } else {
-      // If insertion fails, show error message and redirect to registration page
-      echo "<script>alert('Error: " . mysqli_error($conn) . "'); window.location.href = './reservation.php';</script>";
-  }
+    if ($table_capacity < $people) {
+        echo "<script>alert('The selected table cannot accommodate $people people.'); window.location.href = './reservation.php';</script>";
+    } else {
+        // Check if the table is available at the requested date and time
+        $availability_sql = "SELECT COUNT(*) as count FROM reservations WHERE table_number = '$table_number' AND date = '$date' AND time = '$time'";
+        $availability_result = mysqli_query($conn, $availability_sql);
+        $table_count = mysqli_fetch_assoc($availability_result)['count'];
+
+        if ($table_count > 0) {
+            echo "<script>alert('The selected table is already reserved at the requested date and time.'); window.location.href = './reservation.php';</script>";
+        } else {
+            // SQL query to insert reservation
+            $sql = "INSERT INTO reservations (name, email, phone, date, time, people, table_number, requests) VALUES ('$name', '$email', '$phone', '$date', '$time',$people, '$table_number', '$requests')";
+
+            if (mysqli_query($conn, $sql)) {
+                echo "<script>alert('Reservation made successfully!'); window.location.href = './reservation.php';</script>";
+            } else {
+                echo "<script>alert('Error: " . mysqli_error($conn) . "'); window.location.href = './reservation.php';</script>";
+            }
+        }
+    }
 
     mysqli_close($conn);
-} 
+}
 ?>
 
 
@@ -68,12 +74,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
    <!-- header section -->
    <?php include ("../Components/header.php"); ?>
 
-    <!-- reservation-section -->
-    <div class="reservation-container">
+     <!-- reservation-section -->
+     <div class="reservation-container">
         <h1>Reserve a Table</h1>
-        <?php if ($message): ?>
-            <p><?php echo htmlspecialchars($message); ?></p>
-        <?php endif; ?>
+      
         <form class="reservation-form" action="" method="post">
             <label for="name">Name:</label>
             <input type="text" id="name" name="name" required>
@@ -93,6 +97,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <label for="people">Number of People:</label>
             <input type="number" id="people" name="people" min="1" required>
 
+            <label for="table_number">Table:</label>
+            <select id="table_number" name="table_number" required>
+                <option value="">Select a table</option>
+                <?php
+                while ($row = mysqli_fetch_assoc($tables_result)) {
+                    echo "<option value='{$row['table_number']}'>Table {$row['table_number']} (Capacity: {$row['capacity']})</option>";
+                }
+                ?>
+            </select>
+
             <label for="requests">Special Requests:</label>
             <textarea id="requests" name="requests"></textarea>
 
@@ -101,40 +115,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 
     <!-- footer-section -->
-    <footer>
-        <div class="footer-container">
-            <div class="footer-section about">
-                <h2>The Gallery Café</h2>
-                <p>Welcome to The Gallery Café, where we blend the love for art and food. Enjoy our carefully curated menu and the artistic ambiance.</p>
-            </div>
-            <div class="footer-section links">
-                <h2>Quick Links</h2>
-                <ul>
-                    <li><a href="./index.html">Home</a></li>
-                    <li><a href="./Pages/menu.html">Menu</a></li>
-                    <li><a href="./Pages/reservation.html">Reservations</a></li>
-                    <li><a href="./Pages/aboutUs.html">About Us</a></li>
-                    <li><a href="./Pages/contact.html">Contact</a></li>
-                </ul>
-            </div>
-            <div class="footer-section contact">
-                <h2>Contact Us</h2>
-                <ul>
-                    <li>Email: info@gallerycafe.com</li>
-                    <li>Phone: +1 234 567 890</li>
-                    <li>Address: 123 Art St, Creativity City</li>
-                </ul>
-                <div class="social-media" style="margin-top: 10px">
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-whatsapp"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                </div>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2024 The Gallery Café. All rights reserved.</p>
-        </div>
-    </footer>
+    <?php include ("../Components/footer.php"); ?>
 </body>
 </html>

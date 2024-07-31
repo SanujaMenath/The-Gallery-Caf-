@@ -74,3 +74,17 @@ body::before {
 .reservation-form button:hover {
     background-color: #8b4513;
 }
+
+/* Select tag styling */
+select#table_number {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0 20px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: #f9f9f9;
+    appearance: none; /* Remove default arrow */
+}
+
+

@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $update_query = "UPDATE users SET password = '$hashed_password' WHERE username = '$username'";
         if ($conn->query($update_query) === TRUE) {
             $success = 'Password updated successfully.';
-            header("Location: ./admin.php");
+            header("Location: ../   index.php");
         } else {
             $error = 'Error updating password: ' . $conn->error;
         }

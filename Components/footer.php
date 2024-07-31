@@ -22,7 +22,7 @@
           <ul>
             <li>Email: info@gallerycafe.com</li>
             <li>Phone: +1 234 567 890</li>
-            <li>Address: 123 Art St, Creativity City</li>
+            <li>Address:  No.293, Alfred Rd, Colombo 0300</li>
           </ul>
           <div class="social-media" style="margin-top: 10px">
             <a href="#"><i class="fab fa-facebook-f"></i></a>

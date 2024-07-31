@@ -11,7 +11,7 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
 include ("../db.php");
 
 // Fetch admin details
-$admin_id = $_SESSION['user_id']; // Assuming admin ID is stored in session
+$admin_id = $_SESSION['user_id']; //  Admin ID is stored in session
 $sql = "SELECT * FROM users WHERE id = $admin_id";
 $result = mysqli_query($conn, $sql);
 $admin = mysqli_fetch_assoc($result);
@@ -19,7 +19,6 @@ $admin = mysqli_fetch_assoc($result);
 // Handle profile update
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $new_username = $_POST['newusername'];
-    $username = $_POST['username'];
     $firstName = $_POST['first_name'];
     $lastName = $_POST['last_name'];
 
@@ -38,21 +37,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $image = mysqli_real_escape_string($conn, $image);
             $sql = "UPDATE users SET profile_image = '$image' WHERE id = $admin_id";
             mysqli_query($conn, $sql);
+            echo "<script>alert('Changed profile details successfully!'); window.location.href = './admin.php';</script>";
         }
         header("Location: admin.php");
         exit();
     } else {
         echo "Error: " . mysqli_error($conn);
+        echo "<script>alert('unsuccessful attept!'); window.location.href = './admin.php';</script>";
     }
 }
 
-// Fetch all reservations
-$reservations_sql = "SELECT * FROM reservations";
-$reservations_result = mysqli_query($conn, $reservations_sql);
-
-if (!$reservations_result) {
-    die("Error fetching reservations: " . mysqli_error($conn));
-}
 ?>
 
 <!DOCTYPE html>
@@ -80,7 +74,7 @@ if (!$reservations_result) {
             <!-- Admin-Profile -->
             <section>
                 <h1>Admin Profile</h1>
-                <form action="admin_profile.php" method="POST" enctype="multipart/form-data">
+                <form action="" method="POST" enctype="multipart/form-data">
 
                    <div class="pro-pic">
                    <?php if ($admin['profile_image']): ?>
@@ -88,20 +82,20 @@ if (!$reservations_result) {
                             alt="Profile Image" width="100">
                     <?php endif; ?>
                    </div>
-                    <label for="profile_image">Profile Image:</label>
+                    <label for="profile_image">Change Profile Image:</label>
                     <input type="file" id="profile_image" name="profile_image" accept="image/*">
 
                     <label for="username">Username:</label>
                     <input type="text" id="newusername" name="newusername"
-                        value="<?php echo htmlspecialchars($admin['username']); ?>" required>
+                        value="<?php echo htmlspecialchars($admin['username']); ?>" >
 
                     <label for="first_name">First Name:</label>
                     <input type="text" id="first_name" name="first_name"
-                        value="<?php echo htmlspecialchars($admin['first_name']); ?>" required>
+                        value="<?php echo htmlspecialchars($admin['first_name']); ?>" >
 
                     <label for="last_name">Last Name:</label>
                     <input type="text" id="last_name" name="last_name"
-                        value="<?php echo htmlspecialchars($admin['last_name']); ?>" required>
+                        value="<?php echo htmlspecialchars($admin['last_name']); ?>" >
                     <br>
                     <div class="change-password">
                         <a href="./change_password.php">Change Password </a>
