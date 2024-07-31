@@ -13,7 +13,7 @@
               <img src="../Assets/icons/register.png" alt="Login">Login
             </a>
           <?php else: ?>
-            <a href="#" class="register">
+            <a href="./<?php $_SESSION['role']?>.php" class="register">
               <img src="../Assets/icons/register.png" alt="User">
               <?php echo htmlspecialchars($_SESSION['username']); ?>
             </a>

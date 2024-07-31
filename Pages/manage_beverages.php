@@ -17,31 +17,29 @@ $items_result = mysqli_query($conn, $items_query);
 if (!$items_result) {
     die("Error fetching beverages: " . mysqli_error($conn));
 }
-
-
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Admin Dashboard - The Gallery Café</title>
     <link rel="stylesheet" href="../Styles/header.css" />
     <link rel="stylesheet" href="../Styles/admin.css">
     <link rel="stylesheet" href="../Styles/footer.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
-
 <body>
-    <!-- header section -->
+    <!-- Header section -->
     <?php include ("../Components/header.php"); ?>
 
+    <!-- admin-dashboard -->
     <div class="admin-main-content">
         <div class="admin-container">
-            <h1>Admin Dashboard - The Gallery Café</h1>
+            
+        <?php include ("../Components/admin_header.php"); ?>
+        
             <!-- Manage Beverages Section -->
             <div id="manage-items" class="dashboard-section">
                 <h2>Manage Beverages</h2>
@@ -57,16 +55,23 @@ if (!$items_result) {
                         </tr>
                     </thead>
                     <tbody>
-                        <?php while ($item = $items_result->fetch_assoc()): ?>
+                        <?php while ($item = mysqli_fetch_assoc($items_result)): ?>
                             <tr>
-                                <td><?php echo $item['id']; ?></td>
-                                <td><?php echo $item['name']; ?></td>
-                                <td><?php echo $item['image']; ?></td>
-                                <td><?php echo $item['price_regular']; ?></td>
-                                <td><?php echo $item['price_large']; ?></td>
+                                <td><?php echo htmlspecialchars($item['id']); ?></td>
+                                <td><?php echo htmlspecialchars($item['name']); ?></td>
                                 <td>
-                                    <a href="edit_beverage.php?id=<?php echo $item['id']; ?>">Edit</a> |
-                                    <a href="delete_beverage.php?id=<?php echo $item['id']; ?>"
+                                    <?php if (!empty($item['image'])): ?>
+                                        <img src="data:image/jpeg;base64,<?php echo base64_encode($item['image']); ?>"
+                                             alt="beverage-item" style="width:150px; height:100px;" />
+                                    <?php else: ?>
+                                        No image available
+                                    <?php endif; ?>
+                                </td>
+                                <td><?php echo htmlspecialchars($item['price_regular']); ?></td>
+                                <td><?php echo htmlspecialchars($item['price_large']); ?></td>
+                                <td>
+                                    <a href="edit_beverage.php?id=<?php echo urlencode($item['id']); ?>">Edit</a> |
+                                    <a href="delete_beverage.php?id=<?php echo urlencode($item['id']); ?>"
                                         onclick="return confirm('Are you sure you want to delete this beverage?');">Delete</a>
                                 </td>
                             </tr>
@@ -77,9 +82,8 @@ if (!$items_result) {
             </div>
         </div>
     </div>
-
-    <!-- footer-section -->
+                                            
+    <!-- Footer section -->
     <?php include ("../Components/footer.php"); ?>
 </body>
-
 </html>

@@ -10,15 +10,15 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
 // Database configuration
 include ("../db.php");
 
-// Fetch all users
-$users_sql = "SELECT * FROM users";
-$users_result = mysqli_query($conn, $users_sql);
+// Fetch all reservations
+$reservations_sql = "SELECT * FROM reservations";
+$reservations_result = mysqli_query($conn, $reservations_sql);
 
-if (!$users_result) {
-    die("Error fetching users: " . mysqli_error($conn));
+if (!$reservations_result) {
+    die("Error fetching reservations: " . mysqli_error($conn));
 }
-
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -36,43 +36,41 @@ if (!$users_result) {
     <!-- header section -->
     <?php include ("../Components/header.php"); ?>
 
-
     <!-- admin-dashboard -->
     <div class="admin-main-content">
         <div class="admin-container">
             
         <?php include ("../Components/admin_header.php"); ?>
 
-            <!-- View & Manage Users -->
-            <section id="manage-users">
-                <h2>Manage Users</h2>
+            <!-- Reservation- section -->
+            <section id="view-reservations">
+                <h2>View Reservations</h2>
                 <table class="admin-table">
                     <tr>
-                        <th>Username</th>
+                        <th>Name</th>
                         <th>Email</th>
-                        <th>Role</th>
-                        <th>Actions</th>
+                        <th>Phone</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>People</th>
+                        <th>Requests</th>
                     </tr>
-                    <?php while ($user = $users_result->fetch_assoc()) { ?>
+                    <?php while ($reservation = $reservations_result->fetch_assoc()) { ?>
                         <tr>
-                            <td><?php echo $user['username']; ?></td>
-                            <td><?php echo $user['email']; ?></td>
-                            <td><?php echo $user['role']; ?></td>
-                            <td>
-                                <a href="edit_user.php?id=<?php echo $user['id']; ?>">Edit</a> |
-                                <a href="delete_user.php?id=<?php echo $user['id']; ?>"
-                                    onclick="return confirm('Are you sure you want to delete this user?');">Delete</a>
-                            </td>
+                            <td><?php echo $reservation['name']; ?></td>
+                            <td><?php echo $reservation['email']; ?></td>
+                            <td><?php echo $reservation['phone']; ?></td>
+                            <td><?php echo $reservation['date']; ?></td>
+                            <td><?php echo $reservation['time']; ?></td>
+                            <td><?php echo $reservation['people']; ?></td>
+                            <td><?php echo $reservation['requests']; ?></td>
                         </tr>
                     <?php } ?>
                 </table>
-                <a href="add_user.php" class="admin-button">Add New User</a>
             </section>
         </div>
     </div>
 
-    <!-- footer-section -->
-    <?php include ("../Components/footer.php"); ?>
 </body>
 
 </html>

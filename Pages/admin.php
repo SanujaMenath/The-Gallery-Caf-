@@ -10,12 +10,40 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
 // Database configuration
 include ("../db.php");
 
-// Fetch all cuisine items
-$cuisine_items_query = "SELECT * FROM cuisine_items";
-$cuisine_items_result = mysqli_query($conn, $cuisine_items_query);
+// Fetch admin details
+$admin_id = $_SESSION['user_id']; // Assuming admin ID is stored in session
+$sql = "SELECT * FROM users WHERE id = $admin_id";
+$result = mysqli_query($conn, $sql);
+$admin = mysqli_fetch_assoc($result);
 
-if (!$cuisine_items_result) {
-    die("Error fetching cuisine items: " . mysqli_error($conn));
+// Handle profile update
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $new_username = $_POST['newusername'];
+    $username = $_POST['username'];
+    $firstName = $_POST['first_name'];
+    $lastName = $_POST['last_name'];
+
+    $sql = "UPDATE users SET username = '$username', first_name = '$firstName', last_name = '$lastName' WHERE id = $admin_id";
+
+    if (mysqli_query($conn, $sql)) {
+        $_SESSION['username'] = $new_username;
+        echo "<script>alert('Changed profile details successfully!'); window.location.href = './admin.php';</script>";
+    } else {
+        echo "<script>alert('unsuccessful attept!'); window.location.href = './admin.php';</script>";
+    }
+
+    if (mysqli_query($conn, $sql)) {
+        if (isset($_FILES['profile_image']) && $_FILES['profile_image']['error'] == 0) {
+            $image = file_get_contents($_FILES['profile_image']['tmp_name']);
+            $image = mysqli_real_escape_string($conn, $image);
+            $sql = "UPDATE users SET profile_image = '$image' WHERE id = $admin_id";
+            mysqli_query($conn, $sql);
+        }
+        header("Location: admin.php");
+        exit();
+    } else {
+        echo "Error: " . mysqli_error($conn);
+    }
 }
 
 // Fetch all reservations
@@ -48,75 +76,38 @@ if (!$reservations_result) {
     <!-- admin-dashboard -->
     <div class="admin-main-content">
         <div class="admin-container">
-            <h1>Admin Dashboard - The Gallery Café</h1>
-            <nav class="admin-nav">
-                <ul>
-                    <li><a href="./manage_users.php">Manage Users</a></li>
-                    <li><a href="./manage_beverages.php"> Manage Beverages</a></li>
-                    <li><a href="#manage-cuisine-items">Cuisine-Items</a></li>
-                    <li><a href="#view-reservations">View Reservations</a></li>
-                    <li><a href="logout.php">Logout</a></li>
-                </ul>
-            </nav>
 
-            <!-- Manage Cuisine-Items -->
+            <?php include ("../Components/admin_header.php"); ?>
 
-            <section id="manage-cuisine-items">
-                <h2>Manage Cuisine Items</h2>
-                <table class="admin-table">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Cuisine Type</th>
-                            <th>Image</th>
-                            <th>Description</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php while ($cuisine_item = $cuisine_items_result->fetch_assoc()): ?>
-                            <tr>
-                                <td><?php echo $cuisine_item['id']; ?></td>
-                                <td><?php echo htmlspecialchars($cuisine_item['cuisine_type']); ?></td>
-                                <td><img src="data:image/jpeg;base64,<?php echo base64_encode($cuisine_item['image']); ?>"
-                                        alt="Cuisine Image" style="width:150px; height:100px;" /></td>
-                                <td><?php echo htmlspecialchars($cuisine_item['description']); ?></td>
-                                <td>
-                                    <a href="delete_cuisine_item.php?id=<?php echo $cuisine_item['id']; ?>"
-                                        onclick="return confirm('Are you sure you want to delete this cuisine item?');">Delete</a>
-                                </td>
-                            </tr>
-                        <?php endwhile; ?>
-                    </tbody>
-                </table>
-                <a href="add_cuisine_item.php" class="admin-button">Add Cuisine Item</a>
-            </section>
+            <!-- Admin-Profile -->
+            <section>
+                <h1>Admin Profile</h1>
+                <form action="admin_profile.php" method="POST" enctype="multipart/form-data">
 
-            <!-- Reservation- section -->
-            <section id="view-reservations">
-                <h2>View Reservations</h2>
-                <table class="admin-table">
-                    <tr>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Phone</th>
-                        <th>Date</th>
-                        <th>Time</th>
-                        <th>People</th>
-                        <th>Requests</th>
-                    </tr>
-                    <?php while ($reservation = $reservations_result->fetch_assoc()) { ?>
-                        <tr>
-                            <td><?php echo $reservation['name']; ?></td>
-                            <td><?php echo $reservation['email']; ?></td>
-                            <td><?php echo $reservation['phone']; ?></td>
-                            <td><?php echo $reservation['date']; ?></td>
-                            <td><?php echo $reservation['time']; ?></td>
-                            <td><?php echo $reservation['people']; ?></td>
-                            <td><?php echo $reservation['requests']; ?></td>
-                        </tr>
-                    <?php } ?>
-                </table>
+                    <?php if ($admin['profile_image']): ?>
+                        <img src="data:image/jpeg;base64,<?php echo base64_encode($admin['profile_image']); ?>"
+                            alt="Profile Image" width="100">
+                    <?php endif; ?>
+                    <label for="profile_image">Profile Image:</label>
+                    <input type="file" id="profile_image" name="profile_image" accept="image/*">
+
+                    <label for="username">Username:</label>
+                    <input type="text" id="newusername" name="newusername"
+                        value="<?php echo htmlspecialchars($admin['username']); ?>" required>
+
+                    <label for="first_name">First Name:</label>
+                    <input type="text" id="first_name" name="first_name"
+                        value="<?php echo htmlspecialchars($admin['first_name']); ?>" required>
+
+                    <label for="last_name">Last Name:</label>
+                    <input type="text" id="last_name" name="last_name"
+                        value="<?php echo htmlspecialchars($admin['last_name']); ?>" required>
+                    <br>
+                    <div class="chnage-password">
+                        <a href="./change_password.php">Change Password </a>
+                    </div>
+                    <button type="submit">Update Profile</button>
+                </form>
             </section>
         </div>
     </div>
