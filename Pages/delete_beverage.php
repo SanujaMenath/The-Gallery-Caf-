@@ -12,20 +12,34 @@ include ("../db.php");
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
 
-    $stmt = $conn->prepare("DELETE FROM beverages WHERE id = ?");
-    $stmt->bind_param("i", $id);
+    $sql = "DELETE FROM beverages WHERE id = ?";
+   // Prepare statement
+   $stmt = mysqli_prepare($conn, $sql);
 
-    if ($stmt->execute()) {
-        header("Location: ./manage_beverages.php");
-        exit();
-    } else {
-        echo "Error: " . $stmt->error;
-    }
-
-    $stmt->close();
+   if ($stmt === false) {
+    die("Statement preparation failed: " . mysqli_error($conn));
 }
 
-$conn->close();
+     // Bind parameters
+     mysqli_stmt_bind_param($stmt, "i", $id);
+
+      // Execute the statement
+    if (mysqli_stmt_execute($stmt)) {
+        // Redirect to admin page
+        echo "<script>alert('Beverage item deleted successfully!'); window.location.href='manage_beverages.php';</script>";
+       
+    } else {
+        // Output error message
+        echo "Error: " . mysqli_stmt_error($stmt);
+    }
+
+    // Close the statement
+    mysqli_stmt_close($stmt);
+} else {
+    // Handle the case where ID is not set
+    echo "Error: Invalid ID.";
+}
+
+// Close the database connection
+mysqli_close($conn);
 ?>
-
-

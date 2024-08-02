@@ -13,6 +13,8 @@ include ("../db.php");
 // Check if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = mysqli_real_escape_string($conn, $_POST['name']);
+    $price_regular = mysqli_real_escape_string($conn, $_POST['price_regular']);
+    $price_large = mysqli_real_escape_string($conn, $_POST['price_large']);
 
     // Check if file was uploaded without errors
     if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
@@ -21,9 +23,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         $imgContent = ''; // Or handle the case where no image is uploaded
     }
-
-    $price_regular = mysqli_real_escape_string($conn, $_POST['price_regular']);
-    $price_large = mysqli_real_escape_string($conn, $_POST['price_large']);
 
     // SQL query to insert new beverage
     $sql = "INSERT INTO beverages (name, image, price_regular, price_large)
@@ -48,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../Styles/header.css">
-    <link rel="stylesheet" href="../Styles/add_beverage.css">
+     <link rel="stylesheet" href="../Styles/add_user.css">
     <link rel="stylesheet" href="../Styles/footer.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <title>Add Beverage - Admin Dashboard</title>
@@ -61,23 +60,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <!-- admin-container -->
     <div class="admin-main-content ">
         <div class="admin-container">
-            <h1>Add New Beverage</h1>
+            <div class="login-container">
+                <h1>Add New Beverage</h1>
 
-            <form action="" method="post">
-                <label for="name">Name:</label>
-                <input type="text" id="name" name="name" required>
+                <form action="" method="post">
+                    <div class="input-group">
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
 
-                <label for="add_ons">Add Image:</label>
-                <input type="file" name="image" accept="image/*">
+                    <div class="input-group">
+                        <label for="add_ons">Add Image:</label>
+                        <input type="file" name="image" accept="image/*">
+                    </div>
 
-                <label for="price_regular">Price (Regular):</label>
-                <input type="number" id="price_regular" name="price_regular" step="0.01" required>
+                    <div class="input-group">
+                        <label for="price_regular">Price (Regular):</label>
+                        <input type="number" id="price_regular" name="price_regular" step="0.01" required>
+                    </div>
 
-                <label for="price_large">Price (Large):</label>
-                <input type="number" id="price_large" name="price_large" step="0.01" required>
+                    <div class="input-group">
+                        <label for="price_large">Price (Large):</label>
+                        <input type="number" id="price_large" name="price_large" step="0.01" required>
+                    </div>
 
-                <button type="submit" class="admin-button">Add Beverage</button>
-            </form>
+                    <div class="button-group">
+                        <button type="submit" class="admin-button">Add Beverage</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 

@@ -36,9 +36,9 @@ if (!$items_result) {
 
     <!-- admin-dashboard -->
     <div class="admin-main-content">
-        <div class="admin-container">
-            
-        <?php include ("../Components/admin_header.php"); ?>
+    <?php include ("../Components/admin_header.php"); ?>
+
+        <div class="admin-container">              
         
             <!-- Manage Beverages Section -->
             <div id="manage-items" class="dashboard-section">

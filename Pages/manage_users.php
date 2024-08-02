@@ -39,9 +39,9 @@ if (!$users_result) {
 
     <!-- admin-dashboard -->
     <div class="admin-main-content">
-        <div class="admin-container">
-            
         <?php include ("../Components/admin_header.php"); ?>
+
+        <div class="admin-container">
 
             <!-- View & Manage Users -->
             <section id="manage-users">

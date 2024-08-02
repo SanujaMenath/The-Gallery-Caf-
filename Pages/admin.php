@@ -65,23 +65,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <!-- header section -->
     <?php include ("../Components/header.php"); ?>
 
-    <!-- admin-dashboard -->
-    <div class="admin-main-content">
+     <!-- Admin dashboard -->
+     <div class="admin-main-content">
+        <!-- Side panel -->
+         <?php include("../components/admin_header.php"); ?>
+
+        <!-- Admin Profile -->
         <div class="admin-container">
-
-            <?php include ("../Components/admin_header.php"); ?>
-
-            <!-- Admin-Profile -->
+            <h1 class="admin-header">Admin Profile</h1>
             <section>
-                <h1>Admin Profile</h1>
                 <form action="" method="POST" enctype="multipart/form-data">
-
-                   <div class="pro-pic">
-                   <?php if ($admin['profile_image']): ?>
-                        <img src="data:image/jpeg;base64,<?php echo base64_encode($admin['profile_image']); ?>"
-                            alt="Profile Image" width="100">
-                    <?php endif; ?>
-                   </div>
+                    <div class="pro-pic">
+                        <?php if ($admin['profile_image']): ?>
+                            <img src="data:image/jpeg;base64,<?php echo base64_encode($admin['profile_image']); ?>"
+                                alt="Profile Image" width="100">
+                        <?php else: ?>
+                            <img src="../Images/default_profile.jpg" alt="Default Profile Image" width="100">
+                        <?php endif; ?>
+                    </div>
                     <label for="profile_image">Change Profile Image:</label>
                     <input type="file" id="profile_image" name="profile_image" accept="image/*">
 
@@ -98,7 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         value="<?php echo htmlspecialchars($admin['last_name']); ?>" >
                     <br>
                     <div class="change-password">
-                        <a href="./change_password.php">Change Password </a>
+                        <a href="./change_password.php">Change Password</a>
                     </div>
                     <button type="submit">Update Profile</button>
                 </form>

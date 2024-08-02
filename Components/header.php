@@ -10,8 +10,8 @@
         </a>
 
         <?php if (!isset($_SESSION['role'])): ?>
-          <a href="./Pages/login.php" class="register">
-            <img src="../Assets/icons/register.png" alt="Login" />
+          <a href="./login.php" class="register">
+            <img src="../Assets/icons/register.png" alt="Login" />Login
           </a>
         <?php else: ?>
           <a href="./Pages/user.html" class="register">

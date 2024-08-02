@@ -24,20 +24,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         if (mysqli_query($conn, $sql)) {
             echo "<script>
-               alert('Cuisine Type added successfully!'); 
-               window.location.href = 'add_cuisine_item.php';
-            </script>";
+               alert('Cuisine Type added successfully!');  window.location.href = './manage_cuisine_item.php';  </script>";
+
+
         } else {
-            echo "<script>
-               alert('Error: " . mysqli_error($conn) . "');
-               window.location.href = 'add_cuisine_item.php';
-            </script>";
+            echo "<script> alert('Error: " . mysqli_error($conn) . "');   window.location.href = 'manage_cuisine_item.php';   </script>";
         }
     } else {
-        echo "<script>
-           alert('Error uploading image. Please try again.');
-           window.location.href = 'add_cuisine_item.php';
-        </script>";
+        echo "<script> alert('Error uploading image. Please try again.'); window.location.href = 'manage_cuisine_item.php'; </script>";
     }
 }
 
@@ -54,7 +48,7 @@ mysqli_close($conn);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Cuisine Item - The Gallery Café</title>
     <link rel="stylesheet" href="../Styles/header.css">
-    <link rel="stylesheet" href="../Styles/admin.css">
+    <link rel="stylesheet" href="../Styles/add_user.css">
     <link rel="stylesheet" href="../Styles/footer.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
@@ -66,19 +60,30 @@ mysqli_close($conn);
     <!-- Add -->
     <div class="admin-main-content">
         <div class="admin-container">
-            <h1>Add Cuisine Item</h1>
-            <form action="add_cuisine_item.php" method="POST" enctype="multipart/form-data">
-                <label for="name">Name:</label>
-                <input type="text" id="name" name="name" required>
+            <div class="login-container">
+                <h1>Add Cuisine Item</h1>
+                <form action="add_cuisine_item.php" method="POST" enctype="multipart/form-data">
+                    <div class="input-group">
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
 
-                <label for="image">Image:</label>
-                <input type="file" id="image" name="image" accept="image/*">
+                    <div class="input-group">
+                        <label for="image">Image:</label>
+                        <input type="file" id="image" name="image" accept="image/*">
+                    </div>
 
-                <label for="description">Description:</label>
-                <textarea id="description" name="description" required></textarea>
+                    <div class="input-group">
+                        <label for="description">Description:</label>
+                        <textarea id="description" name="description" required></textarea>
+                    </div>
 
-                <button type="submit">Add Cuisine Item</button>
-            </form>
+                    <div class="button-group">
+                        <button type="submit">Add Cuisine Item</button>
+                    </div>
+
+                </form>
+            </div>
         </div>
     </div>
 

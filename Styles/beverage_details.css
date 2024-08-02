@@ -33,7 +33,7 @@ body {
 
 .beverage-details .beverage-image {
   object-fit: cover;
-  min-width: 300px;
+  min-width: 400px;
   width: 100%;
   height: 300px;
   border-radius: 10px;
@@ -99,5 +99,5 @@ body {
 }
 
 .beverage-details .add-to-cart:hover {
-  background-color: #a64103;
+  background-color: #b34500;
 }

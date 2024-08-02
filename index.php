@@ -1,5 +1,27 @@
 <?php
 session_start();
+
+// Database configuration
+include ("./db.php");
+
+// Fetch all promotions
+$promotions_sql = "SELECT * FROM promotions";
+$promotions_result = mysqli_query($conn, $promotions_sql);
+
+if (!$promotions_result) {
+  die("Error fetching promotions: " . mysqli_error($conn));
+}
+
+// Fetch featured menu items
+$featured_items_query = "
+    SELECT name, description, image 
+    FROM menu_item 
+    WHERE is_featured = 1";
+$featured_items_result = mysqli_query($conn, $featured_items_query);
+
+if (!$featured_items_result) {
+  die("Error fetching featured items: " . mysqli_error($conn));
+}
 ?>
 
 <!DOCTYPE html>
@@ -12,69 +34,70 @@ session_start();
   <link rel="stylesheet" href="./styles/header.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <link rel="stylesheet" href="./Styles/index.css" />
   <title>The Gallery Café</title>
 </head>
+
 <body>
-<header>
-  <!-- header section -->
-  <div class="header">
-    <nav>
-      <div class="header-top">
-        <!-- <img src="./Assets/logo.jpg" alt="The Gallery Café" class="logo" /> -->
-        <div class="header-right">
+  <header>
+    <!-- header section -->
+    <div class="header">
+      <nav>
+        <div class="header-top">
+          <!-- <img src="./Assets/logo.jpg" alt="The Gallery Café" class="logo" /> -->
+          <div class="header-right">
 
-          <a href="./Pages/cart.php" class="cart">
-            <img src="./Assets/icons/shopping-cart.png" alt="Cart" />
-          </a>
+            <a href="./Pages/cart.php" class="cart">
+              <img src="./Assets/icons/shopping-cart.png" alt="Cart" />
+            </a>
 
-          <?php if (!isset($_SESSION['role'])): ?>
-            <a href="./Pages/login.php" class="register">
-              <img src="./Assets/icons/register.png" alt="Login" />Login
-            </a>
-          <?php else: ?>
-            <a href="./Pages/user.html" class="register">
-              <img src="./Assets/icons/register.png" alt="User" />
-              <?php echo htmlspecialchars($_SESSION['username']); ?>
-            </a>
-          <?php endif; ?>
+            <?php if (!isset($_SESSION['role'])): ?>
+              <a href="./Pages/login.php" class="register">
+                <img src="./Assets/icons/register.png" alt="Login" />Login
+              </a>
+            <?php else: ?>
+              <a href="./Pages/user.html" class="register">
+                <img src="./Assets/icons/register.png" alt="User" />
+                <?php echo htmlspecialchars($_SESSION['username']); ?>
+              </a>
+            <?php endif; ?>
 
-          <?php if (isset($_SESSION['role'])): ?>
-            <a href="./Pages/logout.php" class="register">
-              Logout
-            </a>
-          <?php endif; ?>
+            <?php if (isset($_SESSION['role'])): ?>
+              <a href="./Pages/logout.php" class="register">
+                Logout
+              </a>
+            <?php endif; ?>
+          </div>
         </div>
-      </div>
-      <ul class="nav-links">
-        <li><a href="./index.php">Home</a></li>
-        <li><a href="./Pages/menu.php">Menu</a></li>
-        <li><a href="./Pages/reservation.php">Reservations</a></li>
+        <ul class="nav-links">
+          <li><a href="./index.php">Home</a></li>
+          <li><a href="./Pages/menu.php">Menu</a></li>
+          <li><a href="./Pages/reservation.php">Reservations</a></li>
 
-        <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
-          <li><a href="./Pages/admin.php">Dashboard</a></li>
+          <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+            <li><a href="./Pages/admin.php">Dashboard</a></li>
 
-        <?php elseif (isset($_SESSION['role']) && $_SESSION['role'] === 'staff'): ?>
-          <li><a href="./Pages/staff.php">Dashboard</a></li>
-        <?php endif; ?>
+          <?php elseif (isset($_SESSION['role']) && $_SESSION['role'] === 'staff'): ?>
+            <li><a href="./Pages/staff.php">Dashboard</a></li>
+          <?php endif; ?>
 
-        <li><a href="./Pages/aboutUs.php">About Us</a></li>
-        <li><a href="./Pages/contact.php">Contact</a></li>
-      </ul>
-    </nav>
-  </div>
-
-  <!-- Hero Section -->
-  <section class="hero">
-    <div class="text-container">
-      <h1>The Gallery Café</h1>
-      <p>Where art meets food. Enjoy a delightful experience.</p>
-      <a href="./Pages/reservation.php" class="btn">Make a Reservation</a>
+          <li><a href="./Pages/aboutUs.php">About Us</a></li>
+          <li><a href="./Pages/contact.php">Contact</a></li>
+        </ul>
+      </nav>
     </div>
-  </section>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="text-container">
+        <h1>The Gallery Café</h1>
+        <p>Where art meets food. Enjoy a delightful experience.</p>
+        <a href="./Pages/reservation.php" class="btn">Make a Reservation</a>
+      </div>
+    </section>
   </header>
-  
+
   <!-- carousel-section -->
   <section class="carousel">
     <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="false">
@@ -128,26 +151,29 @@ session_start();
       <div class="feature-icon">
         <img src="./Assets/icons/healthcare.png" alt="Icon 1" />
       </div>
-      <h3>TOUCHING HEARTS SINCE 1987</h3>
+
+      <h3>TOUCHING HEARTS SINCE 1998</h3>
       <p>
-        Defining the bar of hospitality in the country, Hilton Colombo is the
-        destination that offers a premier personalized service and has
-        remained an icon in the industry for 35 years.
+        Satisfying the taste buds of sri lankan customers since 1998 have grown into a huge variety of cuisines to
+        extend our loyalty back towards our customers.
       </p>
+
     </div>
     <div class="feature-box">
       <div class="feature-icon">
-        <img src="./Assets/icons/delivery.png" alt="Icon 2" />
+        <img src="./Assets/icons/dinner-date.png" alt="Icon 2" />
       </div>
-      <h3>QUALITY DELIVERY</h3>
+      <h3>EXCEPTIONAL DINING EXPERIENCE</h3>
       <p>
-        The safety and security of our guests is our highest priority. In
-        precautionary response we adhere to every possible hygiene standard.
+        At The Gallery Café, the satisfaction of our guests is our highest priority. We ensure a memorable dining
+        experience with top-notch service, exquisite cuisine, and a comfortable atmosphere, all while adhering to the
+        highest standards of hygiene and safety.
       </p>
+
     </div>
     <div class="feature-box">
       <div class="feature-icon">
-        <img src="./Assets/icons/batch.png" alt="Icon 3" />
+        <img src="./Assets/icons/dining.png" alt="Icon 3" />
       </div>
       <h3>Café CLEANSTAY</h3>
       <p>
@@ -158,69 +184,50 @@ session_start();
     </div>
   </section>
 
+
   <!-- Promotions and Events Section -->
   <section class="promotions-events">
     <h2>Special Promotions & Events</h2>
     <div class="promotions-events-container">
-      <div class="event">
-        <img src="./Assets/event/party.jpg" alt="Event 1" />
-        <div class="event-details">
-          <h3>Live Jazz Night</h3>
-          <p>
-            Join us for a night of live jazz music and special gourmet dishes.
-            Enjoy a relaxed atmosphere with great company and delicious food.
-          </p>
-          <button class="btn">Learn More</button>
+      <?php while ($promotion = mysqli_fetch_assoc($promotions_result)) { ?>
+        <div class="event">
+          <img src="data:image/jpeg;base64,<?php echo base64_encode($promotion['image']); ?>"
+            alt="<?php echo htmlspecialchars($promotion['name']); ?>" />
+          <div class="event-details">
+            <h3><?php echo htmlspecialchars($promotion['name']); ?></h3>
+            <p><?php echo htmlspecialchars($promotion['description']); ?></p>
+            <button class="btn">Learn More</button>
+          </div>
         </div>
-      </div>
-      <div class="event">
-        <img src="./Assets/event/wine-eve.jpg" alt="Event 2" />
-        <div class="event-details">
-          <h3>Wine Tasting Evening</h3>
-          <p>
-            Experience a variety of fine wines paired with gourmet appetizers.
-            Our sommelier will guide you through an unforgettable evening.
-          </p>
-          <button class="btn">Reserve Now</button>
-        </div>
-      </div>
-      <div class="event">
-        <img src="./Assets/event/art.jpg" alt="Event 3" />
-        <div class="event-details">
-          <h3>Art Exhibition</h3>
-          <p>
-            Explore our latest art exhibition while enjoying a curated menu. A
-            perfect evening for art enthusiasts and food lovers.
-          </p>
-          <button class="btn">Discover More</button>
-        </div>
-      </div>
+      <?php } ?>
     </div>
   </section>
+
+  <!-- <div class="event">
+
+          <h3>Art Exhibition</h3>
+          
+            Explore our latest art exhibition while enjoying a curated menu. A
+            perfect evening for art enthusiasts and food lovers. -->
+
 
   <!-- Featured Menu Items Section -->
   <section class="featured-menu">
     <h2>Featured Menu Items</h2>
     <div class="menu-grid">
+      
+    <?php while ($item = mysqli_fetch_assoc($featured_items_result)): ?>
+
       <div class="menu-item">
-        <img src="./Assets/pasta.jpg" alt="Italian Pasta" />
-        <h3>Italian Pasta</h3>
-        <p>
-          Delicious homemade pasta with a rich tomato sauce and fresh basil.
-        </p>
-      </div>
-      <div class="menu-item">
-        <img src="./Assets/sushi.jpg" alt="Sushi Platter" />
-        <h3>Sushi Platter</h3>
-        <p>
-          Assorted sushi with fresh fish, served with soy sauce and wasabi.
-        </p>
-      </div>
-      <div class="menu-item">
-        <img src="./Assets/taco.jpg" alt="Mexican Tacos" />
-        <h3>Mexican Tacos</h3>
-        <p>Spicy chicken tacos with avocado, cilantro, and lime.</p>
-      </div>
+      <?php if (!empty($item['image'])): ?>
+            <img src="data:image/jpeg;base64,<?php echo base64_encode($item['image']); ?>"
+              alt="<?php echo htmlspecialchars($item['name']); ?>" />
+          <?php endif; ?>
+
+          <h3><?php echo htmlspecialchars($item['name']); ?></h3>
+          <p><?php echo htmlspecialchars($item['description']); ?></p>
+      </div>       
+      <?php endwhile; ?>
     </div>
   </section>
 

@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 // Check if the user is logged in
 if (!isset($_SESSION['role'])) {
     header("Location: ./unauthorized.php");
@@ -7,6 +8,9 @@ if (!isset($_SESSION['role'])) {
 }
 
 include("../db.php");
+
+$error = '';
+$success = '';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $current_password = $_POST['current_password'];
@@ -16,31 +20,36 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Fetch the current password from the database
     $username = $_SESSION['username'];
     $query = "SELECT password FROM users WHERE username = '$username'";
-    $result = $conn->query($query);
-    $user = $result->fetch_assoc();
-    $db_password = $user['password'];
+    $result = mysqli_query($conn, $query);
 
-    // Verify the current password
-    if (!password_verify($current_password, $db_password)) {
-        $error = 'Current password is incorrect.';
-    } elseif ($new_password != $confirm_password) {
-        $error = 'New passwords do not match.';
-    } elseif (strlen($new_password) < 6) {
-        $error = 'New password must be at least 6 characters long.';
-    } else {
-        // Update the password
-        $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
-        $update_query = "UPDATE users SET password = '$hashed_password' WHERE username = '$username'";
-        if ($conn->query($update_query) === TRUE) {
-            $success = 'Password updated successfully.';
-            header("Location: ../   index.php");
+    if ($result) {
+        $user = mysqli_fetch_assoc($result);
+        $db_password = $user['password'];
+
+        // Verify the current password
+        if (!password_verify($current_password, $db_password)) {
+            $error = 'Current password is incorrect.';
+        } elseif ($new_password != $confirm_password) {
+            $error = 'New passwords do not match.';
+        } elseif (strlen($new_password) < 6) {
+            $error = 'New password must be at least 6 characters long.';
         } else {
-            $error = 'Error updating password: ' . $conn->error;
+            // Update the password
+            $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
+            $update_query = "UPDATE users SET password = '$hashed_password' WHERE username = '$username'";
+            if (mysqli_query($conn, $update_query)) {
+                $success = 'Password updated successfully.';
+                echo "<script>  alert('$success');  window.location.href = '../index.php';  </script>";
+                exit();
+            } else {
+                $error = 'Error updating password: ' . mysqli_error($conn);
+            }
         }
+    } else {
+        $error = 'Error fetching user data: ' . mysqli_error($conn);
     }
+    mysqli_close($conn);
 }
-
-$conn->close();
 ?>
 
 <!DOCTYPE html>

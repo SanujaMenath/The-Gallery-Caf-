@@ -40,10 +40,10 @@ if (!$cuisine_items_result) {
 
     <!-- admin-dashboard -->
     <div class="admin-main-content">
+         <!-- Side panel -->
+         <?php include("../components/admin_header.php"); ?>
         <div class="admin-container">
-
-        <?php include ("../Components/admin_header.php"); ?>
-
+    
             <!-- Manage Cuisine-Items -->
 
             <section id="manage-cuisine-items">
@@ -65,8 +65,9 @@ if (!$cuisine_items_result) {
                                 <td><?php echo htmlspecialchars($cuisine_item['cuisine_type']); ?></td>
                                 <td><img src="data:image/jpeg;base64,<?php echo base64_encode($cuisine_item['image']); ?>"
                                         alt="Cuisine Image" style="width:150px; height:100px;" /></td>
-                                <td><?php echo htmlspecialchars($cuisine_item['description']); ?></td>
+                                <td style="max-width: 500px;"><?php echo htmlspecialchars($cuisine_item['description']); ?></td>
                                 <td>
+                                <a href="edit_cuisine_item.php?id=<?php echo $cuisine_item['id']; ?>" >Edit </a> |
                                     <a href="delete_cuisine_item.php?id=<?php echo $cuisine_item['id']; ?>"
                                         onclick="return confirm('Are you sure you want to delete this cuisine item?');">Delete</a>
                                 </td>

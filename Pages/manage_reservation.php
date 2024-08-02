@@ -17,6 +17,8 @@ $reservations_result = mysqli_query($conn, $reservations_sql);
 if (!$reservations_result) {
     die("Error fetching reservations: " . mysqli_error($conn));
 }
+
+mysqli_close($conn);
 ?>
 
 <!DOCTYPE html>
@@ -38,9 +40,9 @@ if (!$reservations_result) {
 
     <!-- admin-dashboard -->
     <div class="admin-main-content">
-        <div class="admin-container">
-            
         <?php include ("../Components/admin_header.php"); ?>
+
+        <div class="admin-container">
 
             <!-- Reservation- section -->
             <section id="view-reservations">
@@ -54,6 +56,7 @@ if (!$reservations_result) {
                         <th>Time</th>
                         <th>People</th>
                         <th>Requests</th>
+                        <th>Actions</th>
                     </tr>
                     <?php while ($reservation = $reservations_result->fetch_assoc()) { ?>
                         <tr>
@@ -64,6 +67,10 @@ if (!$reservations_result) {
                             <td><?php echo $reservation['time']; ?></td>
                             <td><?php echo $reservation['people']; ?></td>
                             <td><?php echo $reservation['requests']; ?></td>
+                            <td> <a href="edit_reservation.php?id=<?php echo $reservation['id']; ?>">Modify</a> |
+                                <a href="cancel_reservation.php?id=<?php echo $reservation['id']; ?>"
+                                    onclick="return confirm('Are you sure you want to cancel this reservation?');">Cancel</a>
+                            </td>
                         </tr>
                     <?php } ?>
                 </table>
