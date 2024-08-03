@@ -57,7 +57,7 @@ if (!$featured_items_result) {
                 <img src="./Assets/icons/register.png" alt="Login" />Login
               </a>
             <?php else: ?>
-              <a href="./Pages/user.html" class="register">
+              <a href="./Pages/customer_profile.php" class="register">
                 <img src="./Assets/icons/register.png" alt="User" />
                 <?php echo htmlspecialchars($_SESSION['username']); ?>
               </a>
@@ -91,10 +91,11 @@ if (!$featured_items_result) {
     <!-- Hero Section -->
     <section class="hero">
       <div class="text-container">
-        <h1>The Gallery Café</h1>
-        <p>Where art meets food. Enjoy a delightful experience.</p>
-        <a href="./Pages/reservation.php" class="btn">Make a Reservation</a>
-      </div>
+        <div class="boder">
+    <h1>The Gallery Café</h1>
+    <p>Where art meets food. Enjoy a delightful experience.</p>
+    <a href="./Pages/reservation.php" class="btn">Make a Reservation</a>
+      </div></div>
     </section>
   </header>
 

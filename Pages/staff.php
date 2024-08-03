@@ -76,11 +76,11 @@ mysqli_close($conn);
                 <li><a href="./staff.php">Profile</a></li>
                 <li><a href="./staff_manage_reservation.php">View Reservations</a></li>
                 <li><a href="./staff_manage_preorder.php">Process Pre-orders</a></li>
-                <li><a href="logout.php">Logout</a></li>
+                <li><a href="./logout.php">Logout</a></li>
             </ul>
         </nav>
 
-        <!-- Profile Section -->
+        <!-- Profile Section -->    
         <div class="profile-container">
             <h1>My Profile</h1>
             <form method="post" action="" enctype="multipart/form-data">

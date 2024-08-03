@@ -5,7 +5,7 @@
 
       <div class="header-right">
 
-        <a href="./cart.php" class="cart">
+        <a href="../Pages/cart.php" class="cart">
           <img src="../Assets/icons/shopping-cart.png" alt="Cart" />
         </a>
 
@@ -14,17 +14,24 @@
             <img src="../Assets/icons/register.png" alt="Login" />Login
           </a>
         <?php else: ?>
-          <a href="./Pages/user.html" class="register">
-            <img src="../Assets/icons/register.png" alt="User" />
-           <span> <?php echo htmlspecialchars($_SESSION['username']); ?></span>
-          </a>
+          <?php if ($_SESSION['role'] === 'customer'): ?>
+            <a href="../Pages/customer_profile.php" class="register">
+              <img src="../Assets/icons/register.png" alt="User" />
+              <span> <?php echo htmlspecialchars($_SESSION['username']); ?></span>
+            </a>
+          <?php elseif ($_SESSION['role'] === 'staff'): ?>
+            <a href="../Pages/staff.php" class="register">
+              <img src="../Assets/icons/register.png" alt="User" />
+              <span> <?php echo htmlspecialchars($_SESSION['username']); ?></span>
+            </a>
+          <?php elseif ($_SESSION['role'] === 'admin'): ?>
+            <a href="../Pages/admin.php" class="register">
+              <img src="../Assets/icons/register.png" alt="User" />
+              <span> <?php echo htmlspecialchars($_SESSION['username']); ?></span>
+            </a>
+          <?php endif; ?>
         <?php endif; ?>
 
-        <?php if (isset($_SESSION['role'])): ?>
-          <a href="./logout.php" class="register">
-            Logout
-          </a>
-        <?php endif; ?>
       </div>
     </div>
 

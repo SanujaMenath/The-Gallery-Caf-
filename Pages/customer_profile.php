@@ -74,9 +74,10 @@ mysqli_close($conn);
         <div class="side-panel">
             <h2>Navigation</h2>
             <ul>
-                <li><a href="view_reservations.php">View Reservations</a></li>
-                <li><a href="view_cart.php">View Cart</a></li>
-                <li><a href="view_preorders.php">View Pre-Orders</a></li>
+                <li><a href="view_reservation.php">View Reservations</a></li>
+                <li><a href="./cart.php">View Cart</a></li>
+                <li><a href="./view_preorders.php">View Pre-Orders</a></li>
+                <li><a href="./logout.php">Logout</a></li>
             </ul>
         </div>
 
