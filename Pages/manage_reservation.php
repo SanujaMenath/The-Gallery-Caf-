@@ -67,8 +67,9 @@ mysqli_close($conn);
                             <td><?php echo $reservation['time']; ?></td>
                             <td><?php echo $reservation['people']; ?></td>
                             <td><?php echo $reservation['requests']; ?></td>
-                            <td> <a href="edit_reservation.php?id=<?php echo $reservation['id']; ?>">Modify</a> |
-                                <a href="cancel_reservation.php?id=<?php echo $reservation['id']; ?>"
+                            <td>  <a href="confirm_reservation.php?id=<?php echo $reservation['id']; ?>">Confirm</a> |
+                                <a href="edit_reservation.php?id=<?php echo $reservation['id']; ?>">Modify</a> |
+                                <a href="cancel_reservation_admin.php?id=<?php echo $reservation['id']; ?>"
                                     onclick="return confirm('Are you sure you want to cancel this reservation?');">Cancel</a>
                             </td>
                         </tr>

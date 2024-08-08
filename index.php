@@ -32,8 +32,7 @@ if (!$featured_items_result) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="./Styles/footer.css">
   <link rel="stylesheet" href="./styles/header.css">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous" />
+  <link rel="stylesheet" href="./styles/carousel.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <link rel="stylesheet" href="./Styles/index.css" />
   <title>The Gallery Café</title>
@@ -42,12 +41,10 @@ if (!$featured_items_result) {
 <body>
   <header>
     <!-- header section -->
-    <div class="header">
+    <div class="header" style="z-index: 5000;">
       <nav>
         <div class="header-top">
-          <!-- <img src="./Assets/logo.jpg" alt="The Gallery Café" class="logo" /> -->
           <div class="header-right">
-
             <a href="./Pages/cart.php" class="cart">
               <img src="./Assets/icons/shopping-cart.png" alt="Cart" />
             </a>
@@ -63,11 +60,7 @@ if (!$featured_items_result) {
               </a>
             <?php endif; ?>
 
-            <?php if (isset($_SESSION['role'])): ?>
-              <a href="./Pages/logout.php" class="register">
-                Logout
-              </a>
-            <?php endif; ?>
+
           </div>
         </div>
         <ul class="nav-links">
@@ -92,58 +85,29 @@ if (!$featured_items_result) {
     <section class="hero">
       <div class="text-container">
         <div class="boder">
-    <h1>The Gallery Café</h1>
-    <p>Where art meets food. Enjoy a delightful experience.</p>
-    <a href="./Pages/reservation.php" class="btn">Make a Reservation</a>
-      </div></div>
+          <h1>The Gallery Café</h1>
+          <img src="./Assets/icons/logo.png" alt="">
+          <p>Where art meets food. Enjoy a delightful experience.</p>
+          <a href="./Pages/reservation.php" class="btn">Make a Reservation</a>
+        </div>
+      </div>
     </section>
   </header>
 
   <!-- carousel-section -->
-  <section class="carousel">
-    <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="false">
-      <div class="carousel-indicators">
-        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
-          aria-current="true" aria-label="Slide 1"></button>
-        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
-          aria-label="Slide 2"></button>
-        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
-          aria-label="Slide 3"></button>
+  <section class="carouselContainer">
+    <div id="controls" class="controls">
+      <button id="left" style="padding: 10px; font-size: 40px;">
+        < </button>
+          <button id="right" style="padding: 10px; font-size: 40px;">
+            >
+          </button>
       </div>
-      <div class="carousel-inner">
-        <div class="carousel-item active">
-          <img src="./Assets/coffee-shop.jpg" class="d-block w-100" alt="..." />
-          <div class="carousel-caption d-none d-md-block">
-            <h3>Welcome to Our Café</h3>
-            <p>Experience the best coffee in town.</p>
-          </div>
-        </div>
-        <div class="carousel-item">
-          <img src="./Assets/coffee-shop2.jpg" class="d-block w-100" alt="..." />
-          <div class="carousel-caption d-none d-md-block">
-            <h3>Delicious Treats</h3>
-            <p>Enjoy a variety of freshly baked goods.</p>
-          </div>
-        </div>
-        <div class="carousel-item">
-          <img src="./Assets/coffee-shop3.jpg" class="d-block w-100" alt="..." />
-          <div class="carousel-caption d-none d-md-block">
-            <h3>Cozy Ambiance</h3>
-            <p>Relax in our cozy and artistic atmosphere.</p>
-          </div>
-        </div>
+      <div id="carousel">
+
       </div>
-      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
-        data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-      </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
-        data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-      </button>
-    </div>
+
+
   </section>
 
   <!-- Introduction/About Section -->
@@ -216,18 +180,18 @@ if (!$featured_items_result) {
   <section class="featured-menu">
     <h2>Featured Menu Items</h2>
     <div class="menu-grid">
-      
-    <?php while ($item = mysqli_fetch_assoc($featured_items_result)): ?>
 
-      <div class="menu-item">
-      <?php if (!empty($item['image'])): ?>
+      <?php while ($item = mysqli_fetch_assoc($featured_items_result)): ?>
+
+        <div class="menu-item">
+          <?php if (!empty($item['image'])): ?>
             <img src="data:image/jpeg;base64,<?php echo base64_encode($item['image']); ?>"
               alt="<?php echo htmlspecialchars($item['name']); ?>" />
           <?php endif; ?>
 
           <h3><?php echo htmlspecialchars($item['name']); ?></h3>
           <p><?php echo htmlspecialchars($item['description']); ?></p>
-      </div>       
+        </div>
       <?php endwhile; ?>
     </div>
   </section>
@@ -327,9 +291,7 @@ if (!$featured_items_result) {
     </div>
   </footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
-    crossorigin="anonymous"></script>
+
   <script src="./Scripts/index.js"></script>
 </body>
 

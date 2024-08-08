@@ -1,12 +1,10 @@
-/* General styles */
-html{
-  scroll-behavior: smooth;
-}
+
 body {
   font-family: Arial, sans-serif;
   background-color: #f2f2f2;
   padding: 0;
   margin: 0;
+  /* display: flex; */
 }
 
 /* Form styles */
@@ -20,6 +18,7 @@ label {
   color: #555;
   font-weight: bold;
 }
+
 
 input,
 textarea {
@@ -81,7 +80,6 @@ button[type="submit"]:hover {
 /* Container for main content in admin dashboard */
 .admin-main-content {
   display: flex;
-  align-items: center;
   justify-content: center;
   flex: 1;
   padding: 20px;

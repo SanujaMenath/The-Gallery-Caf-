@@ -31,53 +31,55 @@ $reservations_result = $conn->query($reservations_sql);
 <body>
     <!-- Header Section -->
     <?php include ("../Components/header.php"); ?>
-
-    <!-- staff-Dashboard -->
-    <div class="staff-container">
-        <h1>Staff Dashboard - The Gallery Café</h1>
-        <nav>
-            <ul>
-                <li><a href="./staff.php">Profile</a></li>
-                <li><a href="./staff_manage_reservation.php">View Reservations</a></li>
-                <li><a href="./staff_manage_preorder.php">Process Pre-orders</a></li>
-                <li><a href="logout.php">Logout</a></li>
-            </ul>
-        </nav>
-
-        <!-- Manage Reservation -->
-        <section id="view-reservations">
-            <h2>View Reservations</h2>
-            <table>
-                <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Date</th>
-                    <th>Time</th>
-                    <th>People</th>
-                    <th>Requests</th>
-                    <th>Actions</th>
-                </tr>
-                <?php while ($reservation = $reservations_result->fetch_assoc()) { ?>
+    <div class="dashboard">
+    <div id="nav">
+            <h1>Staff Dashboard</h1>
+            <nav>
+                <ul>
+                    <li><a href="./staff.php">Profile</a></li>
+                    <li><a href="./staff_manage_reservation.php">View Reservations</a></li>
+                    <li><a href="./staff_manage_preorder.php">Process Pre-orders</a></li>
+                    <li><a href="./logout.php">Logout</a></li>
+                </ul>
+            </nav>
+        </div>
+        <!-- staff-Dashboard -->
+        <div class="staff-container">
+            
+            <!-- Manage Reservation -->
+            <section id="view-reservations">
+                <h2>View Reservations</h2>
+                <table>
                     <tr>
-                        <td><?php echo $reservation['name']; ?></td>
-                        <td><?php echo $reservation['email']; ?></td>
-                        <td><?php echo $reservation['phone']; ?></td>
-                        <td><?php echo $reservation['date']; ?></td>
-                        <td><?php echo $reservation['time']; ?></td>
-                        <td><?php echo $reservation['people']; ?></td>
-                        <td><?php echo $reservation['requests']; ?></td>
-                        <td>
-                            <a href="confirm_reservation.php?id=<?php echo $reservation['id']; ?>">Confirm</a> |
-                            <a href="modify_reservation.php?id=<?php echo $reservation['id']; ?>">Modify</a> |
-                            <a href="cancel_reservation.php?id=<?php echo $reservation['id']; ?>">Cancel</a>
-                        </td>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>People</th>
+                        <th>Requests</th>
+                        <th>Actions</th>
                     </tr>
-                <?php } ?>
-            </table>
-        </section>
+                    <?php while ($reservation = $reservations_result->fetch_assoc()) { ?>
+                        <tr>
+                            <td><?php echo $reservation['name']; ?></td>
+                            <td><?php echo $reservation['email']; ?></td>
+                            <td><?php echo $reservation['phone']; ?></td>
+                            <td><?php echo $reservation['date']; ?></td>
+                            <td><?php echo $reservation['time']; ?></td>
+                            <td><?php echo $reservation['people']; ?></td>
+                            <td><?php echo $reservation['requests']; ?></td>
+                            <td>
+                                <a href="confirm_reservation.php?id=<?php echo $reservation['id']; ?>">Confirm</a> |
+                                <a href="modify_reservation.php?id=<?php echo $reservation['id']; ?>">Modify</a> |
+                                <a href="cancel_reservation.php?id=<?php echo $reservation['id']; ?>">Cancel</a>
+                            </td>
+                        </tr>
+                    <?php } ?>
+                </table>
+            </section>
+        </div>
     </div>
-    
 
     <!-- footer-section -->
     <?php include ("../Components/footer.php"); ?>

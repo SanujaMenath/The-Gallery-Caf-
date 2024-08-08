@@ -15,9 +15,10 @@ body {
 }
 
 .about-container h1 {
-    font-size: 2.5em;
+    font-size: 3.5em;
     margin-bottom: 40px;
     color: black;
+    padding-bottom: 23px;
 }
 
 section {
@@ -35,11 +36,21 @@ section p {
     color: #555;
     line-height: 1.6;
 }
-
+.mission p{
+    padding-bottom: 30px;
+}
 .team {
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
+}
+.teams {
+    padding-top: 30px;
+    padding-bottom: 27px;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    color: #a0522d;
 }
 
 .team-member {

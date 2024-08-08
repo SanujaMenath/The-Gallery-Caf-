@@ -30,8 +30,12 @@ session_start();
         create a space where everyone feels welcome.
       </p>
     </section>
-    <section class="team">
+    <hr>
+    <div class="teams">
       <h2>Meet Our Team</h2>
+    </div>
+    
+    <section class="team">
       <div class="team-member">
         <img src="../Assets/about/ceo.jpg" alt="Jane Doe" />
         <h3>Jane Doe</h3>
@@ -63,47 +67,18 @@ session_start();
         </p>
       </div>
     </section>
+    <h3>Privacy Policy</h3>
+    <p>Your privacy is important to us. Read our full Privacy Policy to understand how we collect, use, and protect your personal information.</p>
+    <a href="privacy_policy.php">Read our Privacy Policy</a>
+
+    <h3>Terms and Conditions</h3>
+    <p>Please read our Terms and Conditions carefully before using our services.</p>
+    <a href="Terms_and_Conditions.html">Read our Terms and Conditions</a>
   </div>
 
   <!-- footer-section -->
-  <footer>
-    <div class="footer-container">
-      <div class="footer-section about">
-        <h2>The Gallery Café</h2>
-        <p>
-          Welcome to The Gallery Café, where we blend the love for art and
-          food. Enjoy our carefully curated menu and the artistic ambiance.
-        </p>
-      </div>
-      <div class="footer-section links">
-        <h2>Quick Links</h2>
-        <ul>
-          <li><a href="./index.php">Home</a></li>
-          <li><a href="./Pages/menu.html">Menu</a></li>
-          <li><a href="./Pages/reservation.html">Reservations</a></li>
-          <li><a href="./Pages/aboutUs.php">About Us</a></li>
-          <li><a href="./Pages/contact.html">Contact</a></li>
-        </ul>
-      </div>
-      <div class="footer-section contact">
-        <h2>Contact Us</h2>
-        <ul>
-          <li>Email: info@gallerycafe.com</li>
-          <li>Phone: +1 234 567 890</li>
-          <li>Address: 123 Art St, Creativity City</li>
-        </ul>
-        <div class="social-media" style="margin-top: 10px">
-          <a href="#"><i class="fab fa-facebook-f"></i></a>
-          <a href="#"><i class="fab fa-instagram"></i></a>
-          <a href="#"><i class="fab fa-whatsapp"></i></a>
-          <a href="#"><i class="fab fa-twitter"></i></a>
-        </div>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <p>&copy; 2024 The Gallery Café. All rights reserved.</p>
-    </div>
-  </footer>
+  <?php include("../components/footer.php");?>
 </body>
 
 </html>
+  

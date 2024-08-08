@@ -1,0 +1,51 @@
+/* Styles for the carousel section */
+.carouselContainer {
+    position: relative;
+}
+
+.carousel {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  max-height: 100vh;
+  overflow: hidden;
+
+  position: relative;
+  display: flex;
+  justify-content: center;
+  z-index: 0;
+}
+
+.carouselImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+.carouselImageInnerHTML {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(10px);
+  color: white;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 0;
+}
+
+.controls {
+  height: 100%;
+  width: 100%;
+  z-index: 200;
+  position: absolute;
+  color: rgb(255, 255, 255);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

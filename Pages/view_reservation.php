@@ -26,6 +26,7 @@ $result = mysqli_query($conn, $sql);
     <link rel="stylesheet" href="../Styles/header.css">
     <link rel="stylesheet" href="../Styles/view_reservation.css">
     <link rel="stylesheet" href="../Styles/footer.css">
+    <!-- <link rel="stylesheet" href="../Styles/staff.css"> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 

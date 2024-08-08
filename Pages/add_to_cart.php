@@ -1,61 +1,54 @@
 <?php
 session_start();
+include("../db.php");
 
 if (!isset($_SESSION['username'])) {
-    // Redirect to login page if user is not logged in
     header("Location: login.php");
     exit();
 }
 
-// Database configuration
-$servername = "localhost";
-$username = "root";
-$password = "root";
-$dbname = "the_gallery_cafe";
+$username = $_SESSION['username'];
 
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if (isset($_POST['beverage_id'])) {
+        $beverage_id = intval($_POST['beverage_id']);
+        $menu_id = null;
+        $quantity = intval($_POST['quantity']);
+    } elseif (isset($_POST['menu_id'])) {
+        $menu_id = intval($_POST['menu_id']);
+        $beverage_id = null;
+        $quantity = intval($_POST['quantity']);
+    } else {
+        die("Invalid request.");
+    }
 
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $username = $_SESSION['username'];
-    $beverage_id = $_POST['beverage_id'];
-    
     // Check if the item is already in the cart
-    $sql = "SELECT id, quantity FROM cart WHERE username = ? AND beverage_id = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("si", $username, $beverage_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
+    $sql = "SELECT id FROM cart WHERE username = ? AND beverage_id = ? AND menu_id = ?";
+    $stmt = mysqli_prepare($conn, $sql);
+    mysqli_stmt_bind_param($stmt, "sii", $username, $beverage_id, $menu_id);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
 
-    if ($result->num_rows > 0) {
+    if (mysqli_num_rows($result) > 0) {
         // Item is already in the cart, update the quantity
-        $row = $result->fetch_assoc();
-        $cart_id = $row['id'];
-        $quantity = $row['quantity'] + 1;
-        $sql = "UPDATE cart SET quantity = ? WHERE id = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ii", $quantity, $cart_id);
+        $sql = "UPDATE cart SET quantity = quantity + ? WHERE username = ? AND beverage_id = ? AND menu_id = ?";
+        $stmt = mysqli_prepare($conn, $sql);
+        mysqli_stmt_bind_param($stmt, "isis", $quantity, $username, $beverage_id, $menu_id);
     } else {
-        // Item is not in the cart, insert a new row
-        $sql = "INSERT INTO cart (username, beverage_id, quantity) VALUES (?, ?, 1)";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("si", $username, $beverage_id);
+        // Item is not in the cart, insert a new record
+        $sql = "INSERT INTO cart (username, beverage_id, menu_id, quantity) VALUES (?, ?, ?, ?)";
+        $stmt = mysqli_prepare($conn, $sql);
+        mysqli_stmt_bind_param($stmt, "siii", $username, $beverage_id, $menu_id, $quantity);
     }
 
-    if ($stmt->execute()) {
-        // Redirect to beverages page after adding to cart
-        header("Location: beverages.php");
+    if (mysqli_stmt_execute($stmt)) {
+        echo "<script>alert('Item added to cart successfully!'); window.location.href = 'view_menu_items.php';</script>";
     } else {
-        echo "Error: " . $stmt->error;
+        echo "<script>alert('Failed to add item to cart. Please try again.'); window.location.href = 'view_menu_items.php';</script>";
     }
 
-    $stmt->close();
+    mysqli_stmt_close($stmt);
 }
 
-$conn->close();
+mysqli_close($conn);
 ?>

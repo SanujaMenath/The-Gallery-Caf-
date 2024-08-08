@@ -1,5 +1,5 @@
 body {
-  font-family: Arial,  sans-serif;
+  font-family: Arial, sans-serif;
   padding: 0;
   margin: 0;
   background-color: white;
@@ -11,17 +11,17 @@ header {
   background: url("../Assets/cashier.jpg") no-repeat center center/cover;
   color: white;
   text-align: center;
-  margin-bottom: 10px;
+  margin-bottom: 2px;
   height: 100vh;
 }
-.boder{
+.boder {
   border: solid 1px white;
   background-color: hsla(0, 0%, 0%, 0.5);
   color: white;
   backdrop-filter: blur(3px);
-  padding: 0px 0 50px 0;
-    margin: 85px 270px 0px 313px;
-    border-radius: 35px;
+  padding: 0px 0 15px 0;
+  margin: 85px 270px 0px 313px;
+  border-radius: 35px;
 }
 
 .text-container {
@@ -33,10 +33,16 @@ header {
   font-size: 3em;
   color: #fd5537;
   text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
+  margin-bottom: 17px;
+}
+.text-container img {
+  width: 247px;
+  height: 164px;
+  border-radius: 13px;
 }
 
 .text-container p {
-  padding-top: 10%;
+  padding-top: 3%;
   font-size: 1.2em;
   color: rgb(255, 255, 255);
 }
@@ -61,7 +67,7 @@ header {
   text-align: center;
   margin: 20px auto;
   max-width: 1200px;
-  z-index: -1      ;
+  z-index: -1;
 }
 
 .carousel-inner img {

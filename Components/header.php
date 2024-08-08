@@ -1,5 +1,5 @@
 <!-- header section -->
-<div class="header">
+<div class="header" style="z-index:500 ;">
   <nav>
     <div class="header-top">
 

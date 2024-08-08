@@ -2,135 +2,142 @@
 session_start();
 
 if (!isset($_SESSION['username'])) {
-    // Redirect to login page if user is not logged in
     header("Location: login.php");
     exit();
 }
 
 // Database configuration
-$servername = "localhost";
-$username = "root";
-$password = "root";
-$dbname = "the_gallery_cafe";
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+include ("../db.php");
 
 $username = $_SESSION['username'];
 
+// Fetch user details
+$sql = "SELECT * FROM users WHERE username = '$username'";
+$userResult = mysqli_query($conn, $sql);
+$user = mysqli_fetch_assoc($userResult);
+
 // Fetch cart items for the logged-in user
-$sql = "SELECT cart.id, beverages.name, beverages.price_regular, beverages.price_large, cart.quantity
+$sql = "SELECT cart.id, beverages.name AS beverage_name, beverages.price_regular, menu_item.name AS menu_name, menu_item.price AS menu_price, cart.quantity, cart.beverage_id, cart.menu_id
         FROM cart
-        JOIN beverages ON cart.beverage_id = beverages.id
-        WHERE cart.username = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("s", $username);
-$stmt->execute();
-$result = $stmt->get_result();
+        LEFT JOIN beverages ON cart.beverage_id = beverages.id
+        LEFT JOIN menu_item ON cart.menu_id = menu_item.id
+        WHERE cart.username = '$username'";
+$result = mysqli_query($conn, $sql);
 
 $cartItems = [];
-while ($row = $result->fetch_assoc()) {
+while ($row = mysqli_fetch_assoc($result)) {
     $cartItems[] = $row;
 }
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if (isset($_POST['checkout'])) {
+        // Update cart quantities
+        if (isset($_POST['quantity'])) {
+            foreach ($_POST['quantity'] as $cart_id => $quantity) {
+                $cart_id = mysqli_real_escape_string($conn, $cart_id);
+                $quantity = mysqli_real_escape_string($conn, $quantity);
+                $sql = "UPDATE cart SET quantity = $quantity WHERE id = $cart_id AND username = '$username'";
+                if (!mysqli_query($conn, $sql)) {
+                    echo "<script>alert('Failed to update cart quantities.'); window.location.href = 'cart.php';</script>";
+                    exit();
+                }
+            }
+        }
+
+        // Prepare order details
+        $orderDetails = [];
+        foreach ($cartItems as $item) {
+            $orderDetails[] = [
+                'name' => $item['beverage_name'] ? $item['beverage_name'] : $item['menu_name'],
+                'price' => $item['beverage_name'] ? $item['price_regular'] : $item['menu_price'],
+                'quantity' => $item['quantity']
+            ];
+        }
+        $orderDetailsJson = json_encode($orderDetails);
+
+        // Insert order into pre_orders table
+        $name = mysqli_real_escape_string($conn, $user['first_name']);
+        $email = mysqli_real_escape_string($conn, $user['email']);
+        $phone = mysqli_real_escape_string($conn, $user['phone']);
+        $sql = "INSERT INTO pre_orders (name, email, phone, order_details, status, created_at) VALUES ('$name', '$email', '$phone', '$orderDetailsJson', 'pending', NOW())";
+
+        if (mysqli_query($conn, $sql)) {
+            // Clear the cart
+            $sql = "DELETE FROM cart WHERE username = '$username'";
+            if (mysqli_query($conn, $sql)) {
+                echo "<script>alert('Order placed successfully!'); window.location.href = 'cart.php';</script>";
+            } else {
+                echo "<script>alert('Failed to clear the cart.'); window.location.href = 'cart.php';</script>";
+            }
+        } else {
+            echo "<script>alert('Failed to place order. Please try again.'); window.location.href = 'cart.php';</script>";
+        }
+    }
+}
+
+mysqli_close($conn);
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="../Styles/header.css">
-  <link rel="stylesheet" href="../Styles/cart.css">
-  <link rel="stylesheet" href="../Styles/footer.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-  <title>The Gallery Café - Cart</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../Styles/header.css">
+    <link rel="stylesheet" href="../Styles/cart.css">
+    <link rel="stylesheet" href="../Styles/footer.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <title>The Gallery Café - Checkout</title>
 </head>
+
 <body>
+    <?php include ("../Components/header.php"); ?>
 
-<?php include("../Components/header.php"); ?>
-
-  <!-- Display cart-container -->
-  <div class="cart-container">
-        <h1>Your Cart</h1>
-        <ul class="cart-items">
-            <?php if (empty($cartItems)): ?>
-                <p>Your cart is empty.</p>
-            <?php else: ?>
-                <?php foreach ($cartItems as $item): ?>
-                    <li class="cart-item">
-                        <div class="cart-item-details">
-                            <h2><?php echo $item['name']; ?></h2>
-                            <p>Price: Rs.<?php echo $item['price_regular']; ?></p>
-                            <p>Quantity: <input class="cart-item-quantity" type="number" value="<?php echo $item['quantity']; ?>" min="1"></p>
-                        </div>
-                        <div class="cart-item-actions">
-                            <form action="../Pages/remove_from_cart.php" method="POST">
-                                <input type="hidden" name="cart_id" value="<?php echo $item['id']; ?>">
-                                <button class="remove-button" type="submit">Remove</button>
-                            </form>
-                        </div>
-                    </li>
-                <?php endforeach; ?>
-            <?php endif; ?>
-        </ul>
-
-        <div class="cart-summary">
-            <h2>Cart Summary</h2>
-            <p>Total Items: <?php echo count($cartItems); ?></p>
-            <!-- Calculate and display the total price -->
-            <?php 
-            $total = 0;
-            foreach ($cartItems as $item) {
-                $total += $item['price_regular'] * $item['quantity'];
-            }
-            ?>
-            <p>Total Price: Rs.<?php echo number_format($total, 2); ?></p>
-            <button class="checkout-button">Proceed to Checkout</button>
-        </div>
+    <div class="cart-container">
+        <h1>Checkout</h1>
+        <form method="POST" action="">
+            <ul class="cart-items">
+                <?php if (empty($cartItems)): ?>
+                    <p>Your cart is empty.</p>
+                <?php else: ?>
+                    <?php foreach ($cartItems as $item): ?>
+                        <li class="cart-item">
+                            <div class="cart-item-details">
+                                <h2><?php echo htmlspecialchars($item['beverage_name'] ? $item['beverage_name'] : $item['menu_name']); ?></h2>
+                                <p class="item-price">
+                                    Rs. <?php echo htmlspecialchars($item['beverage_name'] ? $item['price_regular'] : $item['menu_price']); ?>
+                                </p>
+                                <p>Quantity: 
+                                    <input type="number" class="item-quantity" name="quantity[<?php echo htmlspecialchars($item['id']); ?>]" value="<?php echo htmlspecialchars($item['quantity']); ?>" min="1">
+                                </p>
+                                <button type="button" class="remove-button" data-item-id="<?php echo htmlspecialchars($item['id']); ?>">Remove</button>
+                            </div>
+                        </li>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </ul>
+            <div class="cart-summary">
+                <h2>Cart Summary</h2>
+                <p>Total Items: <?php echo count($cartItems); ?></p>
+                <p>Total Price: Rs.<span class="total-price">
+                        <?php
+                        $total = 0;
+                        foreach ($cartItems as $item) {
+                            $price = $item['beverage_name'] ? $item['price_regular'] : $item['menu_price'];
+                            $total += $price * $item['quantity'];
+                        }
+                        echo number_format($total, 2);
+                        ?>
+                    </span>
+                </p>
+                <button type="submit" class="checkout-button" name="checkout">Proceed to Checkout</button>
+            </div>
+        </form>
     </div>
 
-  <!-- footer-section -->
-  <footer>
-    <div class="footer-container">
-      <div class="footer-section about">
-        <h2>The Gallery Café</h2>
-        <p>
-          Welcome to The Gallery Café, where we blend the love for art and food. Enjoy our carefully curated menu and the artistic ambiance.
-        </p>
-      </div>
-      <div class="footer-section links">
-        <h2>Quick Links</h2>
-        <ul>
-          <li><a href="../index.php">Home</a></li>
-          <li><a href="./menu.php">Menu</a></li>
-          <li><a href="./reservation.php">Reservations</a></li>
-          <li><a href="./aboutUs.php">About Us</a></li>
-          <li><a href="./contact.php">Contact</a></li>
-        </ul>
-      </div>
-      <div class="footer-section contact">
-        <h2>Contact Us</h2>
-        <ul>
-          <li>Email: info@gallerycafe.com</li>
-          <li>Phone: +1 234 567 890</li>
-          <li>Address: 123 Art St, Creativity City</li>
-        </ul>
-        <div class="social-media" style="margin-top: 10px">
-          <a href="#"><i class="fab fa-facebook-f"></i></a>
-          <a href="#"><i class="fab fa-instagram"></i></a>
-          <a href="#"><i class="fab fa-whatsapp"></i></a>
-          <a href="#"><i class="fab fa-twitter"></i></a>
-        </div>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <p>&copy; 2024 The Gallery Café. All rights reserved.</p>
-    </div>
-  </footer>
+    <?php include ("../Components/footer.php"); ?>
+    <script src="../Scripts/remove_cart_item.js"></script>
 </body>
+
 </html>

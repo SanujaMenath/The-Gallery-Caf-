@@ -23,12 +23,41 @@ if (isset($_GET['id'])) {
     echo "No beverage selected.";
     exit;
 }
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['beverage_id']) && isset($_POST['quantity'])) {
+    if (!isset($_SESSION['username'])) {
+        header("Location: login.php");
+        exit();
+    }
+
+    $username = $_SESSION['username'];
+    $beverage_id = intval($_POST['beverage_id']);
+    $quantity = intval($_POST['quantity']);
+
+    // Check if the item is already in the cart
+    $sql = "SELECT * FROM cart WHERE beverage_id = $beverage_id AND username = '$username'";
+    $result = mysqli_query($conn, $sql);
+
+    if (mysqli_num_rows($result) > 0) {
+        // If item is already in the cart, update the quantity
+        $sql = "UPDATE cart SET quantity = quantity + $quantity WHERE beverage_id = $beverage_id AND username = '$username'";
+    } else {
+        // If item is not in the cart, insert a new row
+        $sql = "INSERT INTO cart (username, beverage_id, quantity) VALUES ('$username', $beverage_id, $quantity)";
+    }
+
+    if (mysqli_query($conn, $sql)) {
+        echo "<script>alert('Item added to cart successfully!'); window.location.href = './beverages.php';</script>";
+    } else {
+        echo "<script>alert('Failed to add item to cart. Please try again.'); window.location.href = 'beverage_details.php?id=$beverage_id';</script>";
+    }
+}
+
 mysqli_close($conn);
 ?>
 
 <!DOCTYPE html>
 <html>
-
 <head>
     <title><?php echo htmlspecialchars($beverage['name']); ?> - Beverage Details</title>
     <link rel="stylesheet" href="../styles/beverage_details.css">
@@ -46,35 +75,28 @@ mysqli_close($conn);
         }
     </script>
 </head>
-
 <body>
     <div class="beverage-grid">
-        <div class="beverage-details ">
-        <?php if (!empty($beverage['image'])): ?>
-            <img src="data:image/jpeg;base64,<?php echo base64_encode($beverage['image']); ?>"
-                alt="<?php echo htmlspecialchars($beverage['name']); ?>" class="beverage-image">
-        <?php endif; ?>
+        <div class="beverage-details">
+            <?php if (!empty($beverage['image'])): ?>
+                <img src="data:image/jpeg;base64,<?php echo base64_encode($beverage['image']); ?>" alt="<?php echo htmlspecialchars($beverage['name']); ?>" class="beverage-image">
+            <?php endif; ?>
         </div>
 
-        <div class="beverage-details ">
-        <h1><?php echo htmlspecialchars($beverage['name']); ?></h1>
-
-        <span class="price">Regular: LKR <?php echo htmlspecialchars($beverage['price_regular']); ?> | Large: LKR
-        <?php echo htmlspecialchars($beverage['price_large']); ?></span>
-
-        <p class="description"><?php echo htmlspecialchars($beverage['description']); ?></p>      
-
-        <form method="POST" action="add_to_cart.php">
-            <input type="hidden" name="beverage_id" value="<?php echo htmlspecialchars($beverage['id']); ?>">
-            <div class="quantity-selector">
-                <button type="button" onclick="updateQuantity(false)">-</button>
-                <input type="number" id="quantity" name="quantity" value="1" min="1" readonly>
-                <button type="button" onclick="updateQuantity(true)">+</button>
-            </div>
-            <button type="submit" class="add-to-cart">Add to Cart</button>
-        </form>
+        <div class="beverage-details">
+            <h1><?php echo htmlspecialchars($beverage['name']); ?></h1>
+            <span class="price">Regular: LKR <?php echo htmlspecialchars($beverage['price_regular']); ?> | Large: LKR <?php echo htmlspecialchars($beverage['price_large']); ?></span>
+            <p class="description"><?php echo htmlspecialchars($beverage['description']); ?></p>
+            <form method="POST" action="">
+                <input type="hidden" name="beverage_id" value="<?php echo htmlspecialchars($beverage['id']); ?>">
+                <div class="quantity-selector">
+                    <button class="btn"  onclick="updateQuantity(false)">-</button>
+                    <input type="number" id="quantity" name="quantity" value="1" min="1" readonly>
+                    <button type="button" onclick="updateQuantity(true)">+</button>
+                </div>
+                <button class="btn" class="add-to-cart">Add to Cart</button>
+            </form>
         </div>
     </div>
 </body>
-
 </html>

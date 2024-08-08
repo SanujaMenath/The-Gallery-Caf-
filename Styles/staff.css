@@ -1,14 +1,62 @@
-html{
-    scroll-behavior: smooth;
-  }
-  body{
-    margin: 0;
-    padding: 0;
-  }
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
 /* Styles for the staff dashboard */
+.dashboard {
+  display: flex;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: auto;
+  padding: 90px 20px;
+  background-color: #f9f9f9;
+}
+
+#nav {
+  flex: 1;
+  margin-right: 20px;
+  min-width: 235px;
+
+}
+#nav li{
+  font-size: 23px;
+  margin: 35px 0px;
+}
+
+#con {
+  flex: 3;
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+}
+
+nav ul li {
+  margin: 15px 0;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: #ff6347;
+  font-weight: bold;
+  padding: 10px 15px;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+nav ul li a:hover {
+  background-color: #ff6347;
+  color: white;
+}
+
+/* Staff container styles */
 .staff-container {
-  max-width: 1000px;
-  margin: 50px auto;
   padding: 20px;
   background-color: #f9f9f9;
   border: 1px solid #ccc;
@@ -21,76 +69,6 @@ html{
   margin-bottom: 20px;
   font-size: 24px;
 }
-
-.staff-container nav ul {
-  list-style: none;
-  display: flex;
-  justify-content: space-around;
-  padding: 0;
-  margin-bottom: 20px;
-}
-
-.staff-container nav ul li {
-  margin: 0 15px;
-}
-
-.staff-container nav ul li a {
-  text-decoration: none;
-  color: #ff6347;
-  font-weight: bold;
-  padding: 10px 15px;
-  border-radius: 5px;
-  transition: background-color 0.3s;
-}
-
-.staff-container nav ul li a:hover {
-  background-color: #ff6347;
-  color: white;
-}
-
-.staff-container section {
-  margin-bottom: 20px;
-}
-
-.staff-container section h2 {
-  font-size: 22px;
-  margin-bottom: 10px;
-}
-
-.staff-container table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 20px;
-}
-
-.staff-container table th,
-.staff-container table td {
-  border: 1px solid #ddd;
-  padding: 8px;
-  text-align: left;
-}
-
-.staff-container table th {
-  background-color: #f2f2f2;
-}
-
-.staff-container table tr:nth-child(even) {
-  background-color: #f9f9f9;
-}
-
-.staff-container table tr:hover {
-  background-color: #f1f1f1;
-}
-
-.staff-container table a {
-  color: #007bff;
-  text-decoration: none;
-}
-
-.staff-container table a:hover {
-  text-decoration: underline;
-}
-
 
 /* Form styles */
 form {
@@ -123,7 +101,6 @@ button[type="submit"] {
   padding: 12px;
   border: none;
   border-radius: 4px;
-  /* background-color: #28a745; */
   color: #ff6347;
   font-size: 16px;
   cursor: pointer;
@@ -135,8 +112,9 @@ button[type="submit"] {
 
 button[type="submit"]:hover {
   color: white;
-  background-color:  #ff6347;
+  background-color: #ff6347;
 }
+
 /* Profile image display */
 .pro-pic img {
   margin-top: 10px;
@@ -149,10 +127,44 @@ button[type="submit"]:hover {
   margin-right: auto;
 }
 
-.change-password a{
+.change-password a {
   color: #e5533d;
 }
 
-.change-password a:hover{
+.change-password a:hover {
   color: #2003ff;
+}
+.staff-container section {
+  margin-bottom: 20px;
+}
+.staff-container section h2 {
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+.staff-container table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+.staff-container table th,
+.staff-container table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+.staff-container table th {
+  background-color: #f2f2f2;
+}
+.staff-container table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+.staff-container table tr:hover {
+  background-color: #f1f1f1;
+}
+.staff-container table a {
+  color: #007bff;
+  text-decoration: none;
+}
+.staff-container table a:hover {
+  text-decoration: underline;
 }

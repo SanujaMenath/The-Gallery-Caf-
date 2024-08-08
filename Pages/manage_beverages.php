@@ -36,7 +36,7 @@ if (!$items_result) {
 
     <!-- admin-dashboard -->
     <div class="admin-main-content">
-    <?php include ("../Components/admin_header.php"); ?>
+    <div class="i"><?php include ("../Components/admin_header.php"); ?></div>
 
         <div class="admin-container">              
         

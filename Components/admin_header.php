@@ -10,6 +10,7 @@
                     <li><a href="./manage_menu_item.php">Manage Menu</a></li>
                     <li><a href="./manage_promotion.php">Manage Promotions</a></li>
                     <li><a href="./manage_reservation.php">Manage Reservations</a></li>
+                    <li><a href="./view_statistics.php">View Statistics</a></li>
                     <li><a href="logout.php">Logout</a></li>
                 </ul>
             </nav>

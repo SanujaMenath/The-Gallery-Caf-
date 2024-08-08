@@ -8,46 +8,56 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
 }
 
 // Database configuration
-include ("../db.php");
+include("../db.php");
 
 // Fetch admin details
-$admin_id = $_SESSION['user_id']; //  Admin ID is stored in session
+$admin_id = $_SESSION['user_id']; // Admin ID is stored in session
 $sql = "SELECT * FROM users WHERE id = $admin_id";
 $result = mysqli_query($conn, $sql);
 $admin = mysqli_fetch_assoc($result);
 
 // Handle profile update
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $new_username = $_POST['newusername'];
-    $firstName = $_POST['first_name'];
-    $lastName = $_POST['last_name'];
+    $new_username = mysqli_real_escape_string($conn, $_POST['newusername']);
+    $firstName = mysqli_real_escape_string($conn, $_POST['first_name']);
+    $lastName = mysqli_real_escape_string($conn, $_POST['last_name']);
 
-    $sql = "UPDATE users SET username = '$username', first_name = '$firstName', last_name = '$lastName' WHERE id = $admin_id";
+    // Check if the new username already exists
+    $check_sql = "SELECT * FROM users WHERE username = '$new_username' AND id != $admin_id";
+    $check_result = mysqli_query($conn, $check_sql);
 
-    if (mysqli_query($conn, $sql)) {
-        $_SESSION['username'] = $new_username;
-        echo "<script>alert('Changed profile details successfully!'); window.location.href = './admin.php';</script>";
+    if (mysqli_num_rows($check_result) > 0) {
+        echo "<script>alert('Username already exists. Please choose a different username.'); window.location.href = './admin.php';</script>";
     } else {
-        echo "<script>alert('unsuccessful attept!'); window.location.href = './admin.php';</script>";
-    }
+        // Update username, first name, and last name
+        $sql = "UPDATE users SET username = '$new_username', first_name = '$firstName', last_name = '$lastName' WHERE id = $admin_id";
 
-    if (mysqli_query($conn, $sql)) {
-        if (isset($_FILES['profile_image']) && $_FILES['profile_image']['error'] == 0) {
-            $image = file_get_contents($_FILES['profile_image']['tmp_name']);
-            $image = mysqli_real_escape_string($conn, $image);
-            $sql = "UPDATE users SET profile_image = '$image' WHERE id = $admin_id";
-            mysqli_query($conn, $sql);
-            echo "<script>alert('Changed profile details successfully!'); window.location.href = './admin.php';</script>";
+        if (mysqli_query($conn, $sql)) {
+            $_SESSION['username'] = $new_username;
+
+            // Check if a new profile image is uploaded
+            if (isset($_FILES['profile_image']) && $_FILES['profile_image']['error'] == 0) {
+                $image = file_get_contents($_FILES['profile_image']['tmp_name']);
+                $image = mysqli_real_escape_string($conn, $image);
+
+                $image_sql = "UPDATE users SET profile_image = '$image' WHERE id = $admin_id";
+                if (mysqli_query($conn, $image_sql)) {
+                    echo "<script>alert('Profile updated successfully!'); window.location.href = './admin.php';</script>";
+                } else {
+                    echo "<script>alert('Profile details updated, but failed to update profile image.'); window.location.href = './admin.php';</script>";
+                }
+            } else {
+                echo "<script>alert('Profile details updated successfully!'); window.location.href = './admin.php';</script>";
+            }
+        } else {
+            echo "<script>alert('Failed to update profile details.'); window.location.href = './admin.php';</script>";
         }
-        header("Location: admin.php");
-        exit();
-    } else {
-        echo "Error: " . mysqli_error($conn);
-        echo "<script>alert('unsuccessful attept!'); window.location.href = './admin.php';</script>";
     }
 }
 
+mysqli_close($conn);
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -112,7 +122,3 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </body>
 
 </html>
-
-<?php
-$conn->close();
-?>
