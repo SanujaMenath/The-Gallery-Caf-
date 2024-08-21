@@ -38,7 +38,7 @@ session_start();
     <section class="team">
       <div class="team-member">
         <img src="../Assets/about/ceo.jpg" alt="Jane Doe" />
-        <h3>Jane Doe</h3>
+        <h3>Nimal Perera</h3>
         <p>Founder & CEO</p>
         <p>
           Jane is the visionary behind The Gallery Café. With a background in
@@ -48,7 +48,7 @@ session_start();
       </div>
       <div class="team-member">
         <img src="../Assets/about/chef.jpg" alt="John Smith" />
-        <h3>John Smith</h3>
+        <h3>Tharindu Fernando</h3>
         <p>Head Chef</p>
         <p>
           John is the culinary genius in our kitchen. His innovative dishes
@@ -58,7 +58,7 @@ session_start();
       </div>
       <div class="team-member">
         <img src="../Assets/about/manager.jpg" alt="Sarah Brown" />
-        <h3>Sarah Brown</h3>
+        <h3>Chathurika Jayasinghe</h3>
         <p>Manager</p>
         <p>
           Sarah ensures that everything runs smoothly at The Gallery Café.

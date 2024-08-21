@@ -2,7 +2,7 @@
 session_start();
 
 // Database configuration
-include ("./db.php");
+include ("../db.php");
 
 // Fetch all promotions
 $promotions_sql = "SELECT * FROM promotions";
@@ -30,65 +30,27 @@ if (!$featured_items_result) {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="./Styles/footer.css">
-  <link rel="stylesheet" href="./styles/header.css">
-  <link rel="stylesheet" href="./styles/carousel.css">
+  <link rel="stylesheet" href="../Styles/footer.css">
+  <link rel="stylesheet" href="../styles/header.css">
+  <link rel="stylesheet" href="../styles/carousel.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-  <link rel="stylesheet" href="./Styles/index.css" />
+  <link rel="stylesheet" href="../Styles/index.css" />
   <title>The Gallery Café</title>
 </head>
 
 <body>
   <header>
     <!-- header section -->
-    <div class="header" style="z-index: 5000;">
-      <nav>
-        <div class="header-top">
-          <div class="header-right">
-            <a href="./Pages/cart.php" class="cart">
-              <img src="./Assets/icons/shopping-cart.png" alt="Cart" />
-            </a>
-
-            <?php if (!isset($_SESSION['role'])): ?>
-              <a href="./Pages/login.php" class="register">
-                <img src="./Assets/icons/register.png" alt="Login" />Login
-              </a>
-            <?php else: ?>
-              <a href="./Pages/customer_profile.php" class="register">
-                <img src="./Assets/icons/register.png" alt="User" />
-                <?php echo htmlspecialchars($_SESSION['username']); ?>
-              </a>
-            <?php endif; ?>
-
-
-          </div>
-        </div>
-        <ul class="nav-links">
-          <li><a href="./index.php">Home</a></li>
-          <li><a href="./Pages/menu.php">Menu</a></li>
-          <li><a href="./Pages/reservation.php">Reservations</a></li>
-
-          <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
-            <li><a href="./Pages/admin.php">Dashboard</a></li>
-
-          <?php elseif (isset($_SESSION['role']) && $_SESSION['role'] === 'staff'): ?>
-            <li><a href="./Pages/staff.php">Dashboard</a></li>
-          <?php endif; ?>
-
-          <li><a href="./Pages/aboutUs.php">About Us</a></li>
-          <li><a href="./Pages/contact.php">Contact</a></li>
-        </ul>
-      </nav>
-    </div>
+    <?php include('../components/header.php') ?>
 
     <!-- Hero Section -->
     <section class="hero">
       <div class="text-container">
         <div class="boder">
           <h1>The Gallery Café</h1>
-          <img src="./Assets/icons/logo.png" alt="">
+          <img src="../Assets/icons/logo.png" alt="">
           <p>Where art meets food. Enjoy a delightful experience.</p>
-          <a href="./Pages/reservation.php" class="btn">Make a Reservation</a>
+          <a href="./reservation.php" class="btn">Make a Reservation</a>
         </div>
       </div>
     </section>
@@ -114,7 +76,7 @@ if (!$featured_items_result) {
   <section class="feature-about">
     <div class="feature-box">
       <div class="feature-icon">
-        <img src="./Assets/icons/healthcare.png" alt="Icon 1" />
+        <img src="../Assets/icons/healthcare.png" alt="Icon 1" />
       </div>
 
       <h3>TOUCHING HEARTS SINCE 1998</h3>
@@ -126,7 +88,7 @@ if (!$featured_items_result) {
     </div>
     <div class="feature-box">
       <div class="feature-icon">
-        <img src="./Assets/icons/dinner-date.png" alt="Icon 2" />
+        <img src="../Assets/icons/dinner-date.png" alt="Icon 2" />
       </div>
       <h3>EXCEPTIONAL DINING EXPERIENCE</h3>
       <p>
@@ -138,7 +100,7 @@ if (!$featured_items_result) {
     </div>
     <div class="feature-box">
       <div class="feature-icon">
-        <img src="./Assets/icons/dining.png" alt="Icon 3" />
+        <img src="../Assets/icons/dining.png" alt="Icon 3" />
       </div>
       <h3>Café CLEANSTAY</h3>
       <p>
@@ -168,14 +130,6 @@ if (!$featured_items_result) {
     </div>
   </section>
 
-  <!-- <div class="event">
-
-          <h3>Art Exhibition</h3>
-          
-            Explore our latest art exhibition while enjoying a curated menu. A
-            perfect evening for art enthusiasts and food lovers. -->
-
-
   <!-- Featured Menu Items Section -->
   <section class="featured-menu">
     <h2>Featured Menu Items</h2>
@@ -200,10 +154,10 @@ if (!$featured_items_result) {
   <section class="gallery">
     <h2>Our Gallery</h2>
     <div class="gallery-grid">
-      <img src="./Assets/coffee-shop4.jpg" alt="Gallery Image 1" />
-      <img src="./Assets/coffee-shop-dark.jpg" alt="Gallery Image 2" />
-      <img src="./Assets/coffee.jpg" alt="Gallery Image 3" />
-      <img src="./Assets/coffee-shop2.jpg" alt="Gallery Image 4" />
+      <img src="../Assets/coffee-shop4.jpg" alt="Gallery Image 1" />
+      <img src="../Assets/coffee-shop-dark.jpg" alt="Gallery Image 2" />
+      <img src="../Assets/coffee.jpg" alt="Gallery Image 3" />
+      <img src="../Assets/coffee-shop2.jpg" alt="Gallery Image 4" />
     </div>
     <div class="load-more">
       <span class="arrow">▼</span>
@@ -252,47 +206,10 @@ if (!$featured_items_result) {
   </section>
 
   <!-- footer-section -->
-  <footer>
-    <div class="footer-container">
-      <div class="footer-section about">
-        <h2>The Gallery Café</h2>
-        <p>
-          Welcome to The Gallery Café, where we blend the love for art and
-          food. Enjoy our carefully curated menu and the artistic ambiance.
-        </p>
-      </div>
-      <div class="footer-section links">
-        <h2>Quick Links</h2>
-        <ul>
-          <li><a href="./index.php">Home</a></li>
-          <li><a href="./Pages/menu.php">Menu</a></li>
-          <li><a href="./Pages/reservation.php">Reservations</a></li>
-          <li><a href="./Pages/aboutUs.php">About Us</a></li>
-          <li><a href="./Pages/contact.php">Contact</a></li>
-        </ul>
-      </div>
-      <div class="footer-section contact">
-        <h2>Contact Us</h2>
-        <ul>
-          <li>Email: info@gallerycafe.com</li>
-          <li>Phone: +1 234 567 890</li>
-          <li>Address: 123 Art St, Creativity City</li>
-        </ul>
-        <div class="social-media" style="margin-top: 10px">
-          <a href="#"><i class="fab fa-facebook-f"></i></a>
-          <a href="#"><i class="fab fa-instagram"></i></a>
-          <a href="#"><i class="fab fa-whatsapp"></i></a>
-          <a href="#"><i class="fab fa-twitter"></i></a>
-        </div>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <p>&copy; 2024 The Gallery Café. All rights reserved.</p>
-    </div>
-  </footer>
+<?php include('../components/footer.php'); ?>
 
 
-  <script src="./Scripts/index.js"></script>
+  <script src="../Scripts/index.js"></script>
 </body>
 
 </html>

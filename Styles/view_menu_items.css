@@ -16,6 +16,8 @@ body{
     overflow: hidden;
     transition: transform 0.3s ease;
     width: 300px;
+    display: flex;
+    flex-direction: column;
 }
 .menu-item:hover {
     transform: scale(1.05);
@@ -28,6 +30,10 @@ body{
 }
 .menu-item-content {
     padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
 }
 .menu-item h3 {
     font-size: 1.5em;
@@ -58,7 +64,7 @@ body{
     background-color: #d35400;
 }
 
-
+.details{}
 
 .quantity-selector button{
     width: 30px;

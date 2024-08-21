@@ -20,13 +20,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
         $image = $_FILES['image']['tmp_name'];
         $imgContent = addslashes(file_get_contents($image));
-    } else {
-        $imgContent = ''; // Or handle the case where no image is uploaded
     }
+    // } else {
+    //     $imgContent = ''; // Or handle the case where no image is uploaded
+    // }
 
     // SQL query to insert new beverage
-    $sql = "INSERT INTO beverages (name, image, price_regular, price_large)
-            VALUES ('$name', '$imgContent', '$price_regular', '$price_large')";
+    $sql = "INSERT INTO beverages (name, image, price_regular, price_large, description)
+            VALUES ('$name', '$imgContent', '$price_regular', '$price_large','description')";
 
     if (mysqli_query($conn, $sql)) {
         echo "<script>alert('Beverage added successfully!'); window.location.href = './manage_beverages.php';</script>";
@@ -70,7 +71,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
 
                     <div class="input-group">
-                        <label for="add_ons">Add Image:</label>
+                        <label for="Image">Add Image:</label>
                         <input type="file" name="image" accept="image/*">
                     </div>
 

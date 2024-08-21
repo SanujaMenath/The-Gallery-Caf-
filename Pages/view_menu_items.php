@@ -43,9 +43,11 @@ if (!$menu_items_result) {
                     <img src="../Images/default_image.jpg" alt="No image available">
                 <?php endif; ?>
                 <div class="menu-item-content">
+                    <div class="details">
                     <h3><?php echo htmlspecialchars($item['name']); ?></h3>
                     <p><?php echo htmlspecialchars($item['description']); ?></p>
                     <p class="price">RS. <?php echo htmlspecialchars($item['price']); ?></p>
+                    </div>
                     <form method="POST" action="add_to_cart.php" class="qtysubmit">
                         <input type="hidden" name="menu_id" value="<?php echo htmlspecialchars($item['id']); ?>">
                         <div class="quantity-selector">

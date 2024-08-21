@@ -1,27 +1,27 @@
 const carouselData = new Array();
 carouselData.push({
-  imgSrc: "./Assets/coffee-shop.jpg",
+  imgSrc: "../Assets/coffee-shop.jpg",
   innerHTML: {
     title: "Welcome to Our Café",
     description: "Experience the best coffee in town.",
   },
 });
 carouselData.push({
-  imgSrc: "./Assets/coffee-shop2.jpg",
+  imgSrc: "../Assets/coffee-shop2.jpg",
   innerHTML: {
     title: "Delicious Treats",
     description: "Enjoy a variety of freshly baked goods.",
   },
 });
 carouselData.push({
-  imgSrc: "./Assets/coffee-shop3.jpg",
+  imgSrc: "../Assets/coffee-shop3.jpg",
   innerHTML: {
     title: "Cozy Ambiance",
     description: "Relax in our cozy and artistic atmosphere.",
   },
 });
 carouselData.push({
-  imgSrc: "./Assets/sushi.jpg",
+  imgSrc: "../Assets/menu//sushi.jpg",
   innerHTML: {
     title: "Featured Items",
     description:
