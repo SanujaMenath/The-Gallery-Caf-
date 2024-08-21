@@ -173,21 +173,21 @@ if (!$featured_items_result) {
           "Amazing atmosphere and delicious food. A perfect place to unwind
           and enjoy art!"
         </p>
-        <h3>- John Doe</h3>
+        <h3>- Shubman Gill</h3>
       </div>
       <div class="testimonial-item">
         <p>
           "The Gallery Café offers a unique dining experience with its
           artistic décor and exquisite dishes."
         </p>
-        <h3>- Jane Smith</h3>
+        <h3>- Dhananjaya De silva </h3>
       </div>
       <div class="testimonial-item">
         <p>
           "I love the blend of art and food here. The sushi platter is my
           favorite."
         </p>
-        <h3>- Sarah Lee</h3>
+        <h3>- Smrithi Mandhana</h3>
       </div>
     </div>
   </section>

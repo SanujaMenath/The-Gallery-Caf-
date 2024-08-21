@@ -24,9 +24,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && ($_SESSION['role'] === "admin")) {
             VALUES ('$first_name', '$last_name', '$username', '$password', '$email', '$role', NOW())";
 
     if (mysqli_query($conn, $sql)) {
-        echo "<p>New user created successfully</p>";
+        echo  "<script>alert('New User added successfully!'); </script>";
     } else {
-        echo "<p>Error: " . $sql . "<br>" . mysqli_error($conn) . "</p>";
+        echo "<script>alert('Unsuccessful attempt!'); </script>";
     }
 }
 
@@ -53,8 +53,6 @@ mysqli_close($conn);
     <!-- admin-dashboard -->
     <div class="main-content">
         <div class="admin-container">
-
-            <?php include ("../Components/admin_header.php"); ?>
 
             <!-- Add users -->
             <div class="login-container">

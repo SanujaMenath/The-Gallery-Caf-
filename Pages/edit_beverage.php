@@ -73,8 +73,6 @@ mysqli_close($conn);
     <div class="admin-main-content">
         <div class="admin-container">
 
-            <?php include ("../Components/admin_header.php"); ?>
-
             <!-- Edit Beverage Item -->
             <section id="edit-beverage-item">
                 <h2>Edit Beverage Item</h2>

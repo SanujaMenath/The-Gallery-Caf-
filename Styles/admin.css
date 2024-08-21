@@ -31,8 +31,25 @@ textarea {
   box-sizing: border-box;
 }
 
+select {
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  width: 80%; 
+  box-sizing: border-box;
+  background-color: #fff;
+  color: #333;
+  appearance: none; 
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+
 textarea {
   resize: vertical;
+  height: 150px;
 }
 
 button[type="submit"] {

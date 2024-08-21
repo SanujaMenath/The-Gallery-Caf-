@@ -51,7 +51,7 @@ mysqli_close($conn);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Menu Item - Admin Dashboard</title>
     <link rel="stylesheet" href="../Styles/header.css" />
-    <link rel="stylesheet" href="../Styles/add_user.css">
+    <link rel="stylesheet" href="../Styles/add_user.css">   
     <link rel="stylesheet" href="../Styles/footer.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
@@ -63,7 +63,6 @@ mysqli_close($conn);
     <!-- admin-dashboard -->
     <div class="admin-main-content">
         <div class="admin-container">
-            <?php include ("../Components/admin_header.php"); ?>
 
             <!-- Add Menu Item Section -->
             <section id="add-menu-item">

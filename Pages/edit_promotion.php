@@ -44,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sql = "UPDATE promotions SET  name='$name',   description='$description', image='$imgContent' WHERE id='$promotion_id'";          
 
     if (mysqli_query($conn, $sql)) {
-        echo "<script>alert('Promotion updated successfully!'); window.location.href = './admin.php';</script>";
+        echo "<script>alert('Promotion updated successfully!'); window.location.href = './manage_promotion.php';</script>";
     } else {
         echo "<script>alert('Error updating promotion: " . mysqli_error($conn) . "');</script>";
     }
@@ -88,7 +88,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <button type="submit">Update Promotion</button>
             </form>
-            <a href="./manage_promotion.php">Cancel</a>
         </div>
     </div>
 

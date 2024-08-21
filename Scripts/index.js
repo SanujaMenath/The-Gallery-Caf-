@@ -82,7 +82,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function idle() {
     showNextImage();
-    setInterval(showNextImage, 5000); // Change image every 5 seconds
+    setInterval(showNextImage, 5000); 
   }
 
   idle();

@@ -79,7 +79,7 @@ mysqli_close($conn);
     <!-- Edit Menu Item -->
     <div class="admin-main-content">
         <div class="admin-container">
-            <?php include ("../Components/admin_header.php"); ?>
+           
             <section id="edit-menu-item">
                 <h2>Edit Menu Item</h2>
                 <form action="" method="post" enctype="multipart/form-data">

@@ -99,8 +99,6 @@ $conn->close();
     <div class="admin-main-content">
         <div class="admin-container" style="background-image: url('data:image/jpeg;base64,<?php echo base64_encode($cuisine_item['image']); ?>'); ">
 
-            <?php include ("../Components/admin_header.php"); ?>
-
             <!-- Edit Cuisine Item -->
             <section id="edit-cuisine-item">
                 <h2>Edit Cuisine Item</h2>

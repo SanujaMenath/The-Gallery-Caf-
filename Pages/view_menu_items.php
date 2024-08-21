@@ -3,19 +3,20 @@ session_start();
 include("../db.php");
 
 // Check if a cuisine_item ID is provided
-if (isset($_GET['cuisine_item'])) {
-    $cuisine_item_id = intval($_GET['cuisine_item']);
-    $menu_items_query = "SELECT * FROM menu_item WHERE cuisine_item = $cuisine_item_id";
-} else {
-    // If no cuisine_item ID is provided, fetch all menu items
-    $menu_items_query = "SELECT * FROM menu_item";
-}
+
+if (!isset($_GET['menu_item'])) {
+    die('Menu item not found.');
+} 
+
+$menu_items_id = intval($_GET['menu_item']);
+$menu_items_query = "SELECT * FROM menu_item  WHERE id = $menu_items_id";
 
 $menu_items_result = mysqli_query($conn, $menu_items_query);
 
 if (!$menu_items_result) {
     die("Error fetching menu items: " . mysqli_error($conn));
 }
+
 ?>
 
 <!DOCTYPE html>

@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $update_query = "UPDATE users SET password = '$hashed_password' WHERE username = '$username'";
             if (mysqli_query($conn, $update_query)) {
                 $success = 'Password updated successfully.';
-                echo "<script>  alert('$success');  window.location.href = '../index.php';  </script>";
+                echo "<script>  alert('$success');  window.location.href = '../Pages/admin.php';  </script>";
                 exit();
             } else {
                 $error = 'Error updating password: ' . mysqli_error($conn);

@@ -8,7 +8,7 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
 }
 
 // Database configuration
-include ("../db.php");
+include("../db.php");
 
 // Fetch all users
 $users_sql = "SELECT * FROM users";
@@ -34,12 +34,12 @@ if (!$users_result) {
 
 <body>
     <!-- header section -->
-    <?php include ("../Components/header.php"); ?>
+    <?php include("../Components/header.php"); ?>
 
 
     <!-- admin-dashboard -->
     <div class="admin-main-content">
-        <?php include ("../Components/admin_header.php"); ?>
+        <?php include("../Components/admin_header.php"); ?>
 
         <div class="admin-container">
 
@@ -59,7 +59,6 @@ if (!$users_result) {
                             <td><?php echo $user['email']; ?></td>
                             <td><?php echo $user['role']; ?></td>
                             <td>
-                                <a href="edit_user.php?id=<?php echo $user['id']; ?>">Edit</a> |
                                 <a href="delete_user.php?id=<?php echo $user['id']; ?>"
                                     onclick="return confirm('Are you sure you want to delete this user?');">Delete</a>
                             </td>
@@ -72,7 +71,7 @@ if (!$users_result) {
     </div>
 
     <!-- footer-section -->
-    <?php include ("../Components/footer.php"); ?>
+    <?php include("../Components/footer.php"); ?>
 </body>
 
 </html>
